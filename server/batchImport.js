@@ -1,6 +1,7 @@
 const { MongoClient } = require('mongodb');
 
 require('dotenv').config({ path: '../.env' });
+const { Menu } = require('./data/Menu');
 
 const { MONGO_URI } = process.env;
 const { DB_NAME } = process.env;
@@ -11,27 +12,23 @@ const options = {
   useUnifiedTopology: true,
 };
 
-//--------------------------------------------------------------
-
-const getIngredients = async (req, res) => {
+const batchImport = async () => {
   const client = new MongoClient(MONGO_URI, options);
-  // const { _id } = param;
+
   try {
     await client.connect();
-    console.log('connected');
+    console.log('connected!');
     const db = client.db(DB_NAME);
     const collection = db.collection(MENU_COLLECTION);
-
-    const ingredientChoice = await collection.find().toArray();
-
-    res.status(200).json({ status: 200, data: ingredientChoice });
+    const result = await collection.insertMany(Menu);
+    console.log('success');
+    console.log(result);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ status: 500, message: 'internal error' });
+    console.log(error);
   } finally {
     client.close();
     console.log('disconnected');
   }
 };
 
-module.exports = { getIngredients };
+batchImport();
