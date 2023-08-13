@@ -2,36 +2,34 @@
 import styled from 'styled-components';
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
-import { useState } from 'react';
+import Accordion from './Accordion';
 
-const FoodSelection = ({ items }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const handlePrev = () => {
-    setActiveIndex((prevIndex) =>
-      prevIndex === 0 ? items.length - 1 : prevIndex - 1
-    );
-  };
-
-  const handleNext = () => {
-    setActiveIndex((prevIndex) =>
-      prevIndex === items.length - 1 ? 0 : prevIndex + 1
-    );
-  };
+const FoodSelection = () => {
+  const accordionItems = [
+    {
+      title: 'Protien',
+      content: 'Content for item 1...',
+    },
+    {
+      title: 'Vegetables',
+      content: 'Content for item 2...',
+    },
+    {
+      title: 'Dairy',
+      content: 'Content for item 2...',
+    },
+    {
+      title: 'Spices',
+      content: 'Content for item 2...',
+    },
+  ];
 
   return (
-    <div className="carousel-container">
-      <button className="carousel-button" onClick={handlePrev}>
-        &lt;
-      </button>
-      <div className="carousel-content">
-        <div className="carousel-item">{items[activeIndex]}</div>
-      </div>
-      <button className="carousel-button" onClick={handleNext}>
-        &gt;
-      </button>
-    </div>
+    <MainWrapper>
+      <Accordion items={accordionItems} />
+    </MainWrapper>
   );
 };
 
+const MainWrapper = styled.div``;
 export default FoodSelection;

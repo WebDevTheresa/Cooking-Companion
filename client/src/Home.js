@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import cooking from './pictures/cooking.png';
 import { useNavigate } from 'react-router-dom';
-// import react from 'react';
+import LoginButton from './LoginButton';
+import LogoutButton from './LogoutButton';
+import Profile from './Profile';
 
 //fix responsiveness for background image
 const Home = () => {
@@ -13,6 +15,9 @@ const Home = () => {
   return (
     <MainWrapper>
       <ElementsWrapper>
+        <LogoutButton />
+        <LoginButton />
+        <Profile />
         <Header>
           Cooking <br></br>Companion
         </Header>

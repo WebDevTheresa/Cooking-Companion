@@ -6,5 +6,5 @@ app.use(express.json());
 app.use(require('./routes.js'));
 
 app.listen(PORT, () => {
-  console.log('server listening on port ${PORT}');
+  console.log(`server listening on port ${PORT}`);
 });

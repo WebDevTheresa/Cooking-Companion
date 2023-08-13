@@ -1,0 +1,50 @@
+import React, { useEffect } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
+
+const Profile = () => {
+  const { user, isAuthenticated, isLoading, getAccessTokenSilently } =
+    useAuth0();
+  //   const [newUser, setNewUser] = useState();
+  console.log(user);
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      fetch(`/createUser`, {
+        method: 'POST',
+        headers: {
+          accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user }),
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error('cannot find user');
+          }
+          return res.json();
+        })
+        .then((data) => {
+          //   console.log(data);
+          // Handle the response data
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
+  }, [user, isAuthenticated, getAccessTokenSilently]);
+
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
+
+  return (
+    isAuthenticated && (
+      <div>
+        <img src={user.picture} alt={user.name} />
+        <h2>{user.name}</h2>
+        <p>{user.email}</p>
+      </div>
+    )
+  );
+};
+
+export default Profile;
