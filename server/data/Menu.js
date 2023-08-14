@@ -137,11 +137,6 @@ const Menu = [
     name: 'Collard_Greens',
     foodtype: 'Vegetable',
   },
-  {
-    _id: '070',
-    name: 'Corn',
-    foodtype: 'Vegetable',
-  },
 
   {
     _id: '028',
@@ -259,11 +254,6 @@ const Menu = [
     name: 'Allspice',
     foodtype: 'Spices',
   },
-  {
-    _id: '055',
-    name: 'Cloves',
-    foodtype: 'Spices',
-  },
 
   {
     _id: '051',
@@ -284,6 +274,11 @@ const Menu = [
     _id: '054',
     name: 'Cream',
     foodtype: 'Dairy',
+  },
+  {
+    _id: '055',
+    name: 'Cloves',
+    foodtype: 'Spices',
   },
 
   {
@@ -356,6 +351,11 @@ const Menu = [
     _id: '069',
     name: 'Plantain',
     foodtype: 'Starch',
+  },
+  {
+    _id: '070',
+    name: 'Corn',
+    foodtype: 'Vegetable',
   },
 ];
 

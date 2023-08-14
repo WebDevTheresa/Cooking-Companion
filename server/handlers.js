@@ -16,7 +16,7 @@ const options = {
 
 const getIngredients = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-  // const { _id } = param;
+  const { _id } = req.params;
   try {
     await client.connect();
     console.log('connected');
