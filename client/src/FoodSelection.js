@@ -40,6 +40,9 @@ const FoodSelection = () => {
     navigate(`/`);
   };
 
+  const searchRecipes = () => {
+    navigate(`/LoadRecipe`);
+  };
   const accordionItems = [
     {
       title: 'Protein',
@@ -81,7 +84,7 @@ const FoodSelection = () => {
       </HeaderWrapper>
       <Accordion items={accordionItems} />
       <ButtonWrapper>
-        <NextButton>Search</NextButton>
+        <NextButton onClick={searchRecipes}>Search</NextButton>
       </ButtonWrapper>
     </MainWrapper>
   );
