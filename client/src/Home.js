@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
 import Profile from './Profile';
-
+import Navbar from './Navbar';
 //fix responsiveness for background image
 const Home = () => {
   const navigate = useNavigate();
@@ -15,16 +15,14 @@ const Home = () => {
   return (
     <MainWrapper>
       <ElementsWrapper>
-        <LogoutButton />
-        <LoginButton />
+        <Navbar />
+        {/* <LogoutButton />
+        <LoginButton /> */}
         <Profile />
         <Header>
           Cooking <br></br>Companion
         </Header>
-        {/* <h2>
-          Discover the Chef in You: Create Delicious Meals from Your
-          Ingredients, Effortlessly.
-        </h2> */}
+
         <Button onClick={handleButtonClick}>Enter</Button>
         <p>Cooking Simplified: Your Ingredients, Endless Possibilities.</p>
       </ElementsWrapper>

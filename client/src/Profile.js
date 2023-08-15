@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
+import styled from 'styled-components';
 
 const Profile = () => {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } =
@@ -38,13 +39,19 @@ const Profile = () => {
 
   return (
     isAuthenticated && (
-      <div>
-        <img src={user.picture} alt={user.name} />
-        <h2>{user.name}</h2>
-        <p>{user.email}</p>
-      </div>
+      <Wrapper>
+        {/* <Image src={user.picture} alt={user.name} /> */}
+        <h2>Hello! {user.name}</h2>
+        {/* <p>{user.email}</p> */}
+      </Wrapper>
     )
   );
 };
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  color: #ffff;
+`;
 
 export default Profile;

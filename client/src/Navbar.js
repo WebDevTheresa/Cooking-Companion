@@ -1,26 +1,26 @@
 import styled from 'styled-components';
+import LoginButton from './LoginButton';
+import LogoutButton from './LogoutButton';
+// import Profile from './Profile';
 
 const Navbar = () => {
   return (
-    <div>
+    <>
       <ButtonWrapper>
-        <Button>Login</Button>
+        <LoginButton />
+        <LogoutButton />
       </ButtonWrapper>
-    </div>
+    </>
   );
 };
-const Button = styled.button`
-  border-style: none;
-  background-color: #f49d0c;
-  width: 60px;
-`;
+
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  background-color: #fef3c7;
+  align-items: center;
   width: 100%;
-  height: 60px;
+  height: 65px;
 `;
 
 export default Navbar;

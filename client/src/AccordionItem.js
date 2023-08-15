@@ -21,24 +21,30 @@ const AccordionItem = ({ title, content }) => {
 
 const AccordionWrapper = styled.div`
   width: 100%;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
 `;
 
 const Accordionitem = styled.div`
-  border-top: 1px solid #ccc;
+  /* border-top: 1px solid #ccc; */
 `;
 
 const Accordionbutton = styled.button`
   width: 100%;
-  background-color: #f5f5f5;
-  border: none;
+  background-image: linear-gradient(
+    to right,
+    #603813 0%,
+    #b29f94 51%,
+    #603813 100%
+  );
+  /* background-color: #e7e2da; */
   padding: 10px;
-  text-align: left;
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;
 `;
 
 const Accordioncontent = styled.div`
-  background-color: #f9f9f9;
+  background-color: #f6f3f0;
   padding: 10px;
 `;
 

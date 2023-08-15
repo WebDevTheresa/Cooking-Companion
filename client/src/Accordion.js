@@ -18,4 +18,5 @@ const WrapperAccord = styled.div`
   width: 50%;
   left: 25%;
 `;
+
 export default Accordion;
