@@ -48,7 +48,7 @@ const ShowRecipes = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 500px;
-  /* height: 100vh; */
+  height: 100vh;
   background-color: white;
   border: 2px black solid;
 `;
