@@ -16,22 +16,26 @@ const options = {
 
 const getIngredients = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-  const { _id } = req.params;
+  const { foodtype } = req.query;
   try {
     await client.connect();
     console.log('connected');
     const db = client.db(DB_NAME);
     const collection = db.collection(MENU_COLLECTION);
 
-    const ingredientChoice = await collection.find().toArray();
+    const ingredientChoices = await collection
+      .find({ foodtype: foodtype })
+      .toArray();
 
-    res.status(200).json({ status: 200, data: ingredientChoice });
+    res.status(200).json({ status: 200, data: ingredientChoices });
   } catch (error) {
     console.log(error);
     res.status(500).json({ status: 500, message: 'internal error' });
   } finally {
-    client.close();
-    console.log('disconnected');
+    if (client.close());
+    {
+      console.log('disconnected');
+    }
   }
 };
 

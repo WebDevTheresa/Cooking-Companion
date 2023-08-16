@@ -9,32 +9,18 @@ import { useNavigate } from 'react-router-dom';
 import Profile from './Profile';
 
 const FoodSelection = () => {
-  const [isClicked, setIsClicked] = useState(false);
   const navigate = useNavigate();
-
-  // const [ingredientChoice, setIngredientChoice] = useState();
+  // const [isClicked, setIsClicked] = useState(false);
+  const [ingredientChoice, setIngredientChoice] = useState([]);
   // const { _id } = useParams();
-  // useEffect(() => {
-  //   fetch(`/getIngredients`)
-  //     .then((res) => {
-  //       if (!res.ok) {
-  //         throw new Error('cannot retrieve ingredients');
-  //       } else {
-  //         return res.json();
-  //       }
-  //     })
-  //     .then((data) => {
-  //       setIngredientChoice(data);
-  //       // console.log(data.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, [_id]);
 
-  const handleClick = () => {
-    setIsClicked(!isClicked);
-  };
+  // useEffect(() => {
+
+  // }, []);
+
+  // const handleClick = () => {
+  //   setIsClicked(!isClicked);
+  // };
 
   const returnHome = () => {
     navigate(`/`);
@@ -46,20 +32,13 @@ const FoodSelection = () => {
   const accordionItems = [
     {
       title: 'Protein',
-      content: (
-        <ContentsButton
-          onClick={handleClick}
-          style={{
-            backgroundColor: isClicked ? 'green' : 'grey',
-            color: 'white',
-          }}
-        >
-          {isClicked ? 'Selected ✓' : 'Select'}
-        </ContentsButton>
-      ),
     },
     {
-      title: 'Vegetables',
+      title: 'Vegetable',
+      content: 'Content for item 2...',
+    },
+    {
+      title: 'Starch',
       content: 'Content for item 2...',
     },
     {
@@ -68,6 +47,10 @@ const FoodSelection = () => {
     },
     {
       title: 'Spices',
+      content: 'Content for item 2...',
+    },
+    {
+      title: 'Misc',
       content: 'Content for item 2...',
     },
   ];
@@ -82,10 +65,10 @@ const FoodSelection = () => {
       <HeaderWrapper>
         <Header>Select Your Ingredients</Header>
       </HeaderWrapper>
-      <Accordion items={accordionItems} />
       <ButtonWrapper>
         <NextButton onClick={searchRecipes}>Search</NextButton>
       </ButtonWrapper>
+      <Accordion items={accordionItems} />
     </MainWrapper>
   );
 };
@@ -149,14 +132,15 @@ const HeaderWrapper = styled.div`
 `;
 
 const Header = styled.h1`
-  font-size: 70px;
+  margin: 0;
+  font-size: 50px;
   color: #f3904f;
   font-family: 'ariel', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 `;
 
 const Backbutton = styled.button`
   background-color: #666600;
-  margin: 10px;
+  margin-left: 10px;
   height: 50px;
   text-align: center;
   background-size: 200% auto;

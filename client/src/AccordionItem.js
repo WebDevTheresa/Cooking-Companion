@@ -2,18 +2,71 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const AccordionItem = ({ title, content }) => {
+const AccordionItem = ({ title }) => {
   const [isOpen, setIsOpen] = useState(false);
+  // const [isClicked, setIsClicked] = useState(false);
+  const [chosenIngredients, setChosenIngredients] = useState([]);
 
-  const toggleAccordion = () => {
-    setIsOpen(!isOpen);
+  const [content, setContent] = useState([]);
+
+  const toggleAccordion = (foodtype) => {
+    fetch(`/getIngredients/?foodtype=${foodtype}`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('cannot retrieve ingredients');
+        } else {
+          return res.json();
+        }
+      })
+      .then((data) => {
+        // debugger;
+        setContent(data.data);
+        setIsOpen(!isOpen);
+
+        console.log(data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleClick = (foodname) => {
+    if (chosenIngredients.includes(foodname)) {
+      setChosenIngredients(
+        chosenIngredients.filter((food) => food !== foodname)
+      );
+    } else {
+      setChosenIngredients([...chosenIngredients, foodname]);
+    }
   };
 
   return (
     <AccordionWrapper>
       <Accordionitem>
-        <Accordionbutton onClick={toggleAccordion}>{title}</Accordionbutton>
-        {isOpen && <Accordioncontent>{content}</Accordioncontent>}
+        <Accordionbutton onClick={() => toggleAccordion(title)}>
+          {title}
+        </Accordionbutton>
+        {isOpen && (
+          <Accordioncontent>
+            {content.map((item) => {
+              return (
+                <ContentsButton
+                  onClick={() => handleClick(item.name)}
+                  style={{
+                    backgroundColor: chosenIngredients.includes(item.name)
+                      ? 'green'
+                      : 'grey',
+                    color: 'white',
+                  }}
+                >
+                  {chosenIngredients.includes(item.name)
+                    ? `${item.name} ✓ `
+                    : `${item.name}`}
+                </ContentsButton>
+              );
+            })}
+          </Accordioncontent>
+        )}
       </Accordionitem>
     </AccordionWrapper>
   );
@@ -46,6 +99,15 @@ const Accordionbutton = styled.button`
 const Accordioncontent = styled.div`
   background-color: #f6f3f0;
   padding: 10px;
+`;
+
+const ContentsButton = styled.button`
+  width: 107px;
+  height: 37px;
+  margin: 4px;
+  border-style: none;
+  border-radius: 44%;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 `;
 
 export default AccordionItem;

@@ -4,7 +4,7 @@ const { getIngredients, createUser } = require('./handlers');
 
 const router = require('express').Router();
 
-router.get('/getIngredient', getIngredients);
+router.get('/getIngredients', getIngredients);
 router.post('/createUser', createUser);
 
 router.get('hello', (req, res) => {

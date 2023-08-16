@@ -1,5 +1,5 @@
 // Accordion.js
-import React from 'react';
+import React, { useState } from 'react';
 import AccordionItem from './AccordionItem';
 import styled from 'styled-components';
 
@@ -7,7 +7,12 @@ const Accordion = ({ items }) => {
   return (
     <WrapperAccord>
       {items.map((item, index) => (
-        <AccordionItem key={index} title={item.title} content={item.content} />
+        <AccordionItem
+          key={index}
+          title={item.title}
+          // content={content}
+          // toggleAccordion={}
+        />
       ))}
     </WrapperAccord>
   );

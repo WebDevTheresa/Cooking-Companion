@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import react from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import hands from './pictures/hands.png';
+
 const LoadRecipe = () => {
   const navigate = useNavigate();
 
@@ -10,9 +12,10 @@ const LoadRecipe = () => {
   };
 
   return (
-    <>
+    <MainWrapper>
       <Backbutton onClick={returnHome}>⮐</Backbutton>
-    </>
+      <ShowRecipes></ShowRecipes>
+    </MainWrapper>
   );
 };
 const Backbutton = styled.button`
@@ -25,4 +28,29 @@ const Backbutton = styled.button`
   border-radius: 10px;
   display: block;
 `;
+
+const MainWrapper = styled.div`
+  margin: 0;
+  background-image: url(${hands});
+  background-repeat: repeat;
+  background-size: repeat;
+  height: 100vh;
+  position: relative;
+  @media screen and (max-width: 768px) {
+    body {
+      background-size: inherit;
+    }
+  }
+`;
+
+const ShowRecipes = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 500px;
+  /* height: 100vh; */
+  background-color: white;
+  border: 2px black solid;
+`;
+
 export default LoadRecipe;
