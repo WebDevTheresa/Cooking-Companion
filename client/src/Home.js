@@ -16,8 +16,6 @@ const Home = () => {
     <MainWrapper>
       <ElementsWrapper>
         <Navbar />
-        {/* <LogoutButton />
-        <LoginButton /> */}
         <Profile />
         <Header>
           Cooking <br></br>Companion
@@ -41,9 +39,6 @@ const ElementsWrapper = styled.div`
       background-size: inherit;
     }
   }
-
-  /* width: 100vh; */
-  /* background-color: orange; */
 `;
 
 const MainWrapper = styled.div`

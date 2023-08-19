@@ -35,7 +35,7 @@ const LogOutBtn = styled.button`
   display: block;
 
   &:hover {
-    background-position: right center; /* change the direction of the change here */
+    background-position: right center;
     color: #fff;
     text-decoration: none;
   }

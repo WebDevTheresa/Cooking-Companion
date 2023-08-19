@@ -1,34 +1,36 @@
-// eslint-disable-next-line no-unused-vars
 import styled from 'styled-components';
-// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
-// import { useParams } from 'react-router-dom';
 import Accordion from './Accordion';
+import AccordionItem from './AccordionItem';
 import cooking from './pictures/cooking.png';
 import { useNavigate } from 'react-router-dom';
 import Profile from './Profile';
 
-const FoodSelection = () => {
+const FoodSelection = ({ items, title }) => {
   const navigate = useNavigate();
-  // const [isClicked, setIsClicked] = useState(false);
-  const [ingredientChoice, setIngredientChoice] = useState([]);
-  // const { _id } = useParams();
 
-  // useEffect(() => {
-
-  // }, []);
-
-  // const handleClick = () => {
-  //   setIsClicked(!isClicked);
-  // };
+  const [chosenIngredients, setChosenIngredients] = useState([]);
+  console.log(items, 'items');
 
   const returnHome = () => {
     navigate(`/`);
   };
 
   const searchRecipes = () => {
+    const savedIngredients = localStorage.getItem('chosenIngredients');
+    console.log(chosenIngredients, 'choose ingredients');
     navigate(`/LoadRecipe`);
+    if (savedIngredients) {
+      try {
+        const parsedIngredients = JSON.parse(savedIngredients);
+        setChosenIngredients(parsedIngredients);
+        console.log(parsedIngredients, 'saved ingredients');
+      } catch (error) {
+        console.error('Error parsing saved ingredients:', error);
+      }
+    }
   };
+
   const accordionItems = [
     {
       title: 'Protein',
@@ -45,14 +47,14 @@ const FoodSelection = () => {
       title: 'Dairy',
       content: 'Content for item 2...',
     },
-    {
-      title: 'Spices',
-      content: 'Content for item 2...',
-    },
-    {
-      title: 'Misc',
-      content: 'Content for item 2...',
-    },
+    // {
+    //   title: 'Spices',
+    //   content: 'Content for item 2...',
+    // },
+    // {
+    //   title: 'Misc',
+    //   content: 'Content for item 2...',
+    // },
   ];
 
   if (!FoodSelection) {

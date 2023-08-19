@@ -6,6 +6,7 @@ export const RecipeProvider = ({ children }) => {
   const [storedRecipe, setStoredRecipe] = useState(() => {
     const savedRecipe = sessionStorage.getItem('storedRecipe');
     return savedRecipe ? JSON.parse(savedRecipe) : null;
+    // console.log(storedRecipe);
   });
 
   return (

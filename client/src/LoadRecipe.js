@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import react from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { useEffect, useState } from 'react';
 import hands from './pictures/hands.png';
+import AccordionItem from './AccordionItem';
 
 const LoadRecipe = () => {
   const navigate = useNavigate();
@@ -14,7 +15,6 @@ const LoadRecipe = () => {
   return (
     <MainWrapper>
       <Backbutton onClick={returnHome}>⮐</Backbutton>
-      <ShowRecipes></ShowRecipes>
     </MainWrapper>
   );
 };

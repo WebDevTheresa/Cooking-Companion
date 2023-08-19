@@ -1,10 +1,10 @@
 // AccordionItem.js
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
 const AccordionItem = ({ title }) => {
   const [isOpen, setIsOpen] = useState(false);
-  // const [isClicked, setIsClicked] = useState(false);
+
   const [chosenIngredients, setChosenIngredients] = useState([]);
 
   const [content, setContent] = useState([]);
@@ -19,14 +19,11 @@ const AccordionItem = ({ title }) => {
         }
       })
       .then((data) => {
-        // debugger;
         setContent(data.data);
         setIsOpen(!isOpen);
-
-        console.log(data.data);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error, 'error');
       });
   };
 
@@ -51,6 +48,7 @@ const AccordionItem = ({ title }) => {
             {content.map((item) => {
               return (
                 <ContentsButton
+                  key={item.name}
                   onClick={() => handleClick(item.name)}
                   style={{
                     backgroundColor: chosenIngredients.includes(item.name)
