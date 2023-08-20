@@ -28,14 +28,15 @@ const AccordionItem = ({ title }) => {
   };
 
   const handleClick = (foodname) => {
-    if (chosenIngredients.includes(foodname)) {
-      setChosenIngredients(
-        chosenIngredients.filter((food) => food !== foodname)
-      );
-    } else {
-      setChosenIngredients([...chosenIngredients, foodname]);
-    }
+    setChosenIngredients([...chosenIngredients, foodname]);
+    const existingValue = localStorage.getItem('ingredients');
+
+    const newValue = existingValue ? existingValue + ',' + foodname : foodname;
+
+    localStorage.setItem('ingredients', newValue);
   };
+
+  console.log(chosenIngredients, 'choseningriedents');
 
   return (
     <AccordionWrapper>
