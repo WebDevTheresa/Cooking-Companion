@@ -68,4 +68,66 @@ const createUser = async (req, res) => {
   }
 };
 
-module.exports = { getIngredients, createUser };
+const deleteRecipe = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const { id } = req.params;
+
+  try {
+    await client.connect();
+    console.log('connected');
+
+    const db = client.db(DB_NAME);
+    const collection = db.collection(MENU_COLLECTION);
+
+    const recipe = await collection.findOneAndDelete({ _id: new ObjectID(id) });
+
+    if (!recipe.value) {
+      return res.status(404).json({ status: 404, message: 'Recipe not found' });
+    }
+
+    res
+      .status(200)
+      .json({ status: 200, message: 'Recipe deleted successfully' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: 500, message: 'Internal error' });
+  } finally {
+    client.close();
+    console.log('disconnected');
+  }
+};
+
+const postARecipe = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const { foodtype, name, ingredients } = req.body;
+
+  try {
+    await client.connect();
+    console.log('connected');
+
+    const db = client.db(DB_NAME);
+    const collection = db.collection(MENU_COLLECTION);
+
+    const newRecipe = {
+      foodtype,
+      name,
+      ingredients,
+    };
+
+    const result = await collection.insertOne(newRecipe);
+
+    res.status(200).json({
+      status: 200,
+      message: 'Recipe created successfully',
+      data: result.ops[0],
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: 500, message: 'Internal error' });
+  } finally {
+    client.close();
+    console.log('disconnected');
+  }
+};
+
+module.exports = { getIngredients, createUser, deleteRecipe, postARecipe };
