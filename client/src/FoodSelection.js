@@ -5,6 +5,7 @@ import AccordionItem from './AccordionItem';
 import cooking from './pictures/cooking.png';
 import { useNavigate } from 'react-router-dom';
 import Profile from './Profile';
+import Sidebar from './SideBar';
 
 const FoodSelection = ({ items, title }) => {
   const navigate = useNavigate();
@@ -17,18 +18,7 @@ const FoodSelection = ({ items, title }) => {
   };
 
   const searchRecipes = () => {
-    const savedIngredients = localStorage.getItem('chosenIngredients');
-    console.log(chosenIngredients, 'choose ingredients');
     navigate(`/LoadRecipe`);
-    if (savedIngredients) {
-      try {
-        const parsedIngredients = JSON.parse(savedIngredients);
-        setChosenIngredients(parsedIngredients);
-        console.log(parsedIngredients, 'saved ingredients');
-      } catch (error) {
-        console.error('Error parsing saved ingredients:', error);
-      }
-    }
   };
 
   const accordionItems = [
@@ -150,4 +140,5 @@ const Backbutton = styled.button`
   border-radius: 10px;
   display: block;
 `;
+
 export default FoodSelection;
