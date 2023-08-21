@@ -108,6 +108,7 @@ const Button = styled.button`
     #215f00 100%
   );
   margin: 10px;
+  height: 80px;
   padding: 15px 45px;
   text-align: center;
   text-transform: uppercase;
