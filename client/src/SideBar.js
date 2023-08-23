@@ -3,10 +3,11 @@ import react from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import PostRecipe from './PostRecipe';
+import UserLikes from './UserLikes';
 const Sidebar = () => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate(`/PostRecipe`);
+    navigate(`/UserLikes`);
   };
 
   return (
@@ -15,7 +16,7 @@ const Sidebar = () => {
         <NavigationLink to="/"> Home</NavigationLink>
         <NavigationLink to="/FoodSelection"> Ingredients</NavigationLink>
 
-        <AddRecipeButton onClick={handleClick}>Add My Recipe</AddRecipeButton>
+        <AddRecipeButton onClick={handleClick}>My Likes</AddRecipeButton>
       </Wrapper>
     </div>
   );
