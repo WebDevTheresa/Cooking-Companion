@@ -98,8 +98,10 @@ const deleteRecipe = async (req, res) => {
 };
 
 const postARecipe = async (req, res) => {
+  console.log(req.body);
   const client = new MongoClient(MONGO_URI, options);
-  const { foodtype, name, ingredients } = req.body;
+
+  const { recipe } = req.body;
 
   try {
     await client.connect();
@@ -109,17 +111,15 @@ const postARecipe = async (req, res) => {
     const collection = db.collection(MENU_COLLECTION);
 
     const newRecipe = {
-      foodtype,
-      name,
-      ingredients,
+      recipe,
     };
 
     const result = await collection.insertOne(newRecipe);
-
+    console.log(result);
     res.status(200).json({
       status: 200,
       message: 'Recipe created successfully',
-      data: result.ops[0],
+      recipe,
     });
   } catch (error) {
     console.log(error);
