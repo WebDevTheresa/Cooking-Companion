@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 import Accordion from './Accordion';
 import AccordionItem from './AccordionItem';
 import cooking from './pictures/cooking.png';
@@ -7,11 +8,11 @@ import { useNavigate } from 'react-router-dom';
 import Profile from './Profile';
 import Sidebar from './SideBar';
 
-const FoodSelection = ({ items, title }) => {
+const FoodSelection = ({ items, title, user }) => {
   const navigate = useNavigate();
 
   const [chosenIngredients, setChosenIngredients] = useState([]);
-  console.log(items, 'items');
+  // console.log(items, 'items');
 
   const returnHome = () => {
     navigate(`/`);
