@@ -9,6 +9,8 @@ const PostRecipe = () => {
   const navigate = useNavigate();
   const [addRecipe, setAddRecipe] = useState('');
   const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [displayRecipe, setDisplayRecipe] = useState();
+  console.log(addRecipe);
 
   const handlePost = () => {
     // const postData = {
@@ -24,14 +26,15 @@ const PostRecipe = () => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ status: addRecipe }),
+      body: JSON.stringify({ recipe: addRecipe }),
     })
-      .then((res) => {
-        if (res.ok) {
-          setAddRecipe('');
-
-          console.log('success message');
-        }
+      .then((response) => response.json())
+      .then((data) => {
+        debugger;
+        setAddRecipe('');
+        setDisplayRecipe(data.recipe);
+        setIsButtonClicked(true);
+        console.log('success message');
       })
       .catch((error) => console.log(error));
   };
@@ -61,7 +64,7 @@ const PostRecipe = () => {
           value={addRecipe}
         />
         <SubmitDiv>
-          {isButtonClicked && <RenderedText>{addRecipe}</RenderedText>}
+          {isButtonClicked && <RenderedText>{displayRecipe}</RenderedText>}
           <Button onClick={handlePost}>Add Recipe</Button>
         </SubmitDiv>
       </TextAreaWrapper>
@@ -123,7 +126,7 @@ const Button = styled.button`
   }
 `;
 
-const RenderedText = styled.p`
+const RenderedText = styled.div`
   margin: 20px;
   font-size: 18px;
   white-space: pre-wrap; /* Preserve line breaks and spaces */
