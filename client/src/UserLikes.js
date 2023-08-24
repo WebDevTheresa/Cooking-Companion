@@ -1,12 +1,18 @@
 import styled from 'styled-components';
 import React from 'react';
 import cooking from './pictures/cooking.png';
+import { useNavigate } from 'react-router-dom';
 import Sidebar from './SideBar';
 import { Link, NavLink } from 'react-router-dom';
 
 const UserLikes = () => {
+  const navigate = useNavigate();
+  const returnHome = () => {
+    navigate(`/LoadRecipe`);
+  };
   return (
     <MainWrapper>
+      <Backbutton onClick={returnHome}>⮐</Backbutton>
       <Wrapper>
         <NavigationLink to="/"> Home</NavigationLink>
         <NavigationLink to="/FoodSelection"> Ingredients</NavigationLink>
@@ -55,11 +61,23 @@ const NavigationLink = styled(NavLink)`
 `;
 const Wrapper = styled.div`
   display: flex;
+  margin-left: 20px;
   flex-direction: column;
   justify-content: space-between;
   width: 190px;
   background-color: #f7f0e6;
   padding: 30px;
   border-radius: 30px;
+`;
+
+const Backbutton = styled.button`
+  background-color: #666600;
+  margin-left: 20px;
+  height: 50px;
+  text-align: center;
+  background-size: 200% auto;
+  color: white;
+  border-radius: 10px;
+  display: block;
 `;
 export default UserLikes;
