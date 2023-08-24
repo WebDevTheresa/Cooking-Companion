@@ -6,7 +6,7 @@ const Profile = () => {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } =
     useAuth0();
   //   const [newUser, setNewUser] = useState();
-  console.log(user);
+  // console.log(user);
   useEffect(() => {
     if (isAuthenticated && user) {
       fetch(`/createUser`, {
