@@ -10,7 +10,7 @@ const PostRecipe = () => {
   const [addRecipe, setAddRecipe] = useState('');
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [displayRecipe, setDisplayRecipe] = useState();
-  console.log(addRecipe);
+  // console.log(addRecipe);
 
   const handlePost = () => {
     // const postData = {
