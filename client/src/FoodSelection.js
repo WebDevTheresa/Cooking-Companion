@@ -133,7 +133,7 @@ const Header = styled.h1`
 
 const Backbutton = styled.button`
   background-color: #666600;
-  margin-left: 10px;
+  margin-left: 20px;
   height: 50px;
   text-align: center;
   background-size: 200% auto;
