@@ -41,6 +41,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   margin-right: 80px;
+  margin-left: 20px;
   background-color: #f7f0e6;
   padding: 30px;
   border-radius: 30px;
