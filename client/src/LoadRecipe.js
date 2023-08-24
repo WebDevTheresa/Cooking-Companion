@@ -10,7 +10,7 @@ const LoadRecipe = () => {
   const navigate = useNavigate();
   const [ShowRecipes, setShowRecipe] = useState([]);
   const [ingredients, setIngredients] = useState([]);
-  console.log(ingredients, 'ingredients');
+  // console.log(ingredients, 'ingredients');
   const returnHome = () => {
     navigate(`/FoodSelection`);
   };
@@ -22,6 +22,7 @@ const LoadRecipe = () => {
 
   return (
     <MainWrapper>
+      <Backbutton onClick={returnHome}>⮐</Backbutton>
       <Feed />
     </MainWrapper>
   );
@@ -50,5 +51,14 @@ const ShowRecipes = styled.div`
   background-color: white;
   border: 2px black solid;
 `;
-
+const Backbutton = styled.button`
+  background-color: #666600;
+  margin-left: 20px;
+  height: 50px;
+  text-align: center;
+  background-size: 200% auto;
+  color: white;
+  border-radius: 10px;
+  display: block;
+`;
 export default LoadRecipe;
