@@ -118,7 +118,7 @@ const postARecipe = async (req, res) => {
     console.log(result);
     res.status(200).json({
       status: 200,
-      message: 'Recipe created successfully',
+      message: 'Recipe saved successfully',
       recipe,
     });
   } catch (error) {
