@@ -7,7 +7,7 @@ const Feed = () => {
   return (
     <Wrapper>
       <Sidebar />
-      <RecipeFeed> </RecipeFeed>
+      <RecipeFeed> data from fetch should be displayed here </RecipeFeed>
     </Wrapper>
   );
 };
