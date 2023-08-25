@@ -11,7 +11,7 @@ const Feed = () => {
       <RecipeFeed>
         {JSON.parse(localStorage.getItem('recipeResults')).map((recipe) => {
           return (
-            <React.Fragment key={recipe.id}>
+            <ContentsWrapper key={recipe.id}>
               <RecipeTitle>{recipe.title}</RecipeTitle>
               <img
                 src={recipe.image}
@@ -20,7 +20,7 @@ const Feed = () => {
                 style={{ width: 400, height: 400 }}
               />
               {/* <p>Likes:{recipe.likes}</p> */}
-            </React.Fragment>
+            </ContentsWrapper>
           );
         })}
       </RecipeFeed>
@@ -73,5 +73,9 @@ const AddRecipeButton = styled.button`
 const RecipeTitle = styled.p`
   inline-size: 350px;
   overflow-wrap: break-word;
+`;
+const ContentsWrapper = styled.div`
+  border-bottom: solid 2px beige;
+  padding: 37px;
 `;
 export default Feed;
