@@ -4,10 +4,26 @@ import Sidebar from './SideBar';
 import LoadRecipe from './LoadRecipe';
 
 const Feed = () => {
+  // debugger;
   return (
     <Wrapper>
       <Sidebar />
-      <RecipeFeed> data from fetch should be displayed here </RecipeFeed>
+      <RecipeFeed>
+        {JSON.parse(localStorage.getItem('recipeResults')).map((recipe) => {
+          return (
+            <React.Fragment key={recipe.id}>
+              <RecipeTitle>{recipe.title}</RecipeTitle>
+              <img
+                src={recipe.image}
+                alt="food"
+                key={`${recipe.id}-image`}
+                style={{ width: 400, height: 400 }}
+              />
+              {/* <p>Likes:{recipe.likes}</p> */}
+            </React.Fragment>
+          );
+        })}
+      </RecipeFeed>
     </Wrapper>
   );
 };
@@ -19,8 +35,12 @@ const Wrapper = styled.div`
 const RecipeFeed = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 65px;
-  width: 700px;
+  flex-wrap: wrap;
+  margin-left: 120px;
+  justify-content: center;
+  padding: 60px;
+  /* margin-left: 65px; */
+  /* width: 500px; */
   border: 1px solid rgb(230, 230, 230);
   background-color: white;
 `;
@@ -48,5 +68,10 @@ const AddRecipeButton = styled.button`
     color: #fff;
     text-decoration: none;
   }
+`;
+
+const RecipeTitle = styled.p`
+  inline-size: 350px;
+  overflow-wrap: break-word;
 `;
 export default Feed;
