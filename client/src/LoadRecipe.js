@@ -30,11 +30,26 @@ const LoadRecipe = () => {
 
 const MainWrapper = styled.div`
   margin: 0;
-  background-image: url(${cooking});
+  /* background-image: url(${cooking});
   /* background-repeat: repeat; */
-  background-size: cover;
+  /* background-size: cover;
   height: 100vh;
-  position: relative;
+  position: relative; */
+  background-image: linear-gradient(
+    to right top,
+    #f4f2d5,
+    #e8e3be,
+    #dcd4a7,
+    #d1c491,
+    #c6b57b,
+    #bda96b,
+    #b39e5b,
+    #aa924b,
+    #9f873c,
+    #947d2d,
+    #89721c,
+    #7e6806
+  );
   @media screen and (max-width: 768px) {
     body {
       background-size: inherit;
