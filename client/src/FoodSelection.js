@@ -18,7 +18,31 @@ const FoodSelection = ({ items, title, user }) => {
     navigate(`/`);
   };
 
-  const searchRecipes = () => {
+  const searchRecipes = async () => {
+    debugger;
+    const url = `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=${localStorage
+      .getItem('ingredients')
+      .replaceAll(',', '%2C')}&number=5&ignorePantry=true&ranking=1`;
+    const options = {
+      method: 'GET',
+      headers: {
+        'X-RapidAPI-Key': `0613153440mshe2a14ecb716c72dp15bed8jsn1e385404eac2`,
+        'X-RapidAPI-Host':
+          'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com',
+      },
+    };
+
+    try {
+      const response = await fetch(url, options);
+      const result = await response.json();
+      // debugger;
+      localStorage.setItem('ingredients', '');
+      localStorage.setItem('recipeResults', JSON.stringify(result));
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+
     navigate(`/LoadRecipe`);
   };
 
