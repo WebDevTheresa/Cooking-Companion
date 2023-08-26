@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 require('dotenv').config({ path: '../.env' });
 
@@ -6,6 +6,7 @@ const { MONGO_URI } = process.env;
 const { DB_NAME } = process.env;
 const { MENU_COLLECTION } = process.env;
 const { USER_COLLECTION } = process.env;
+const { SAVED_COLLECTION } = process.env;
 
 const options = {
   useNewUrlParser: true,
@@ -79,7 +80,7 @@ const deleteRecipe = async (req, res) => {
     const db = client.db(DB_NAME);
     const collection = db.collection(MENU_COLLECTION);
 
-    const recipe = await collection.findOneAndDelete({ _id: new ObjectID(id) });
+    const recipe = await collection.findOneAndDelete({ _id: new ObjectId(id) });
 
     if (!recipe.value) {
       return res.status(404).json({ status: 404, message: 'Recipe not found' });
@@ -130,4 +131,88 @@ const postARecipe = async (req, res) => {
   }
 };
 
-module.exports = { getIngredients, createUser, deleteRecipe, postARecipe };
+const likeRecipe = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const { recipe } = req.body;
+  console.log(req.body);
+  try {
+    await client.connect();
+    console.log('connected');
+
+    const db = client.db(DB_NAME);
+    const collection = db.collection(SAVED_COLLECTION);
+
+    const savedRecipe = await collection.findOne({ _id: new ObjectId(recipe) });
+
+    if (!savedRecipe) {
+      return res.status(404).json({ status: 404, message: 'Recipe not found' });
+    }
+
+    // Update the likes count
+    savedRecipe.likes = (savedRecipe.likes || 0) + 1;
+
+    // Update the existing recipe with the new likes count
+    await collection.updateOne(
+      { _id: new ObjectId(recipe) },
+      { $set: savedRecipe }
+    );
+
+    res.status(200).json({
+      status: 200,
+      message: 'Recipe liked successfully',
+      recipe: savedRecipe, // Return the updated recipe
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: 500, message: 'Internal error' });
+  } finally {
+    client.close();
+    console.log('disconnected');
+  }
+};
+
+// const likeRecipe = async (req, res) => {
+//   const client = new MongoClient(MONGO_URI, options);
+//   console.log(recipe);
+//   try {
+//     await client.connect();
+//     console.log('connected');
+
+//     const db = client.db(DB_NAME);
+//     const collection = db.collection(SAVED_COLLECTION);
+//     const { recipe } = req.body;
+
+//     const savedRecipe = await collection.findOne({ _id: new ObjectId(recipe) });
+
+//     if (!savedRecipe) {
+//       return res.status(404).json({ status: 404, message: 'Recipe not found' });
+//     }
+
+//     savedRecipe.likes = (savedRecipe.likes || 0) + 1;
+
+//     await collection.updateOne(
+//       { _id: new ObjectId(recipe) },
+//       { $set: { likes: savedRecipe.likes } }
+//     );
+
+//     res.status(200).json({
+//       status: 200,
+//       message: 'Recipe liked successfully',
+//       recipe: savedRecipe,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ status: 500, message: 'Internal error' });
+//   } finally {
+//     client.close();
+//     console.log('disconnected');
+//   }
+// };
+
+module.exports = {
+  getIngredients,
+  createUser,
+  deleteRecipe,
+  postARecipe,
+  likeRecipe,
+};

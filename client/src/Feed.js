@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import React from 'react';
 import Sidebar from './SideBar';
 import LoadRecipe from './LoadRecipe';
+import LikesBar from './LikesBar';
 
 const Feed = () => {
   // debugger;
@@ -20,6 +21,7 @@ const Feed = () => {
                 style={{ width: 400, height: 400 }}
               />
               {/* <p>Likes:{recipe.likes}</p> */}
+              <LikesBar />
             </ContentsWrapper>
           );
         })}

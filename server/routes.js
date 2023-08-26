@@ -3,6 +3,7 @@ const {
   createUser,
   deleteRecipe,
   postARecipe,
+  likeRecipe,
 } = require('./handlers');
 
 //fill in squiggles with endpoint names
@@ -13,6 +14,8 @@ router.get('/getIngredients', getIngredients);
 router.post('/createUser', createUser);
 router.delete('/recipes/:id', deleteRecipe);
 router.post('/recipes', postARecipe);
+router.post('/recipes/like', likeRecipe);
+
 router.get('hello', (req, res) => {
   return res.status(200).json({ status: 200, message: 'hello from server' });
 });

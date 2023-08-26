@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import cooking from './pictures/cooking.png';
 import AccordionItem from './AccordionItem';
 import Feed from './Feed';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 
 const LoadRecipe = () => {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ const LoadRecipe = () => {
   return (
     <MainWrapper>
       <Backbutton onClick={returnHome}>⮐</Backbutton>
+
       <Feed />
     </MainWrapper>
   );

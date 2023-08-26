@@ -19,7 +19,7 @@ const FoodSelection = ({ items, title, user }) => {
   };
 
   const searchRecipes = async () => {
-    debugger;
+    // debugger;
     const url = `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=${localStorage
       .getItem('ingredients')
       .replaceAll(',', '%2C')}&number=5&ignorePantry=true&ranking=1`;
