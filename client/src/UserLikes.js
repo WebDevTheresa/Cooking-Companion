@@ -1,24 +1,57 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import cooking from './pictures/cooking.png';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from './SideBar';
 import { Link, NavLink } from 'react-router-dom';
+import { display } from '@mui/system';
 
-const UserLikes = () => {
+const UserLikes = ({ SetDisplayLikes }) => {
+  const [displayLikes, setDisplayLikes] = useState();
+
   const navigate = useNavigate();
-  const returnHome = () => {
-    navigate(`/LoadRecipe`);
-  };
+  // const returnHome = () => {
+  // navigate(`/LoadRecipe`);
+  // debugger;
+  useEffect(() => {
+    fetch('/getSavedRecipes')
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setDisplayLikes(data.recipe);
+      })
+      .catch((error) => {
+        console.error('Fetch error:', error);
+      });
+  }, []);
+  // };
+
   return (
     <MainWrapper>
-      <Backbutton onClick={returnHome}>⮐</Backbutton>
+      {/* <Backbutton onClick={returnHome}>⮐</Backbutton> */}
       <Wrapper>
         <NavigationLink to="/"> Home</NavigationLink>
         <NavigationLink to="/FoodSelection"> Ingredients</NavigationLink>
         <NavigationLink to="/LoadRecipe"> Recipes</NavigationLink>
       </Wrapper>
-      <ShowLikesDiv>this a div</ShowLikesDiv>
+
+      <ShowLikesDiv>
+        {displayLikes &&
+          displayLikes.map((likes, index) => {
+            const uniqueKey = `recipe_${index}`;
+            return (
+              <LikedUserRecipes key={uniqueKey}>
+                <TitleDiv>{likes.recipe.title}</TitleDiv>
+                <RecipeImg src={likes.recipe.image} alt={likes.recipe.title} />
+              </LikedUserRecipes>
+            );
+          })}
+      </ShowLikesDiv>
     </MainWrapper>
   );
 };
@@ -37,14 +70,23 @@ const MainWrapper = styled.div`
     }
   }
 `;
+const RecipeImg = styled.img`
+  height: 200px;
 
+  width: 200px;
+`;
+const LikedUserRecipes = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  padding: 30px;
+
+  background-color: white;
+`;
+const TitleDiv = styled.div`
+  display: flex;
+`;
 const ShowLikesDiv = styled.div`
   display: flex;
-  flex-direction: column;
-  margin-left: 65px;
-  width: 700px;
-  border: 1px solid rgb(230, 230, 230);
-  background-color: white;
 `;
 const NavigationLink = styled(NavLink)`
   font-size: 24px;
