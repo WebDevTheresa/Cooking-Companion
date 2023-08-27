@@ -1,38 +1,42 @@
 import styled from 'styled-components';
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useParams } from 'react-router-dom';
 
 const LikesBar = () => {
   const [isLiked, setIsLiked] = useState(false);
   const [buttonActive, setButtonActive] = useState(false);
-  const { id } = useParams();
+  const [saveRecipe, setSaveRecipe] = useState();
+  const [displayLikes, setDisplayLikes] = useState();
+
   console.log(isLiked);
 
   const handleButtonClick = () => {
     setIsLiked(!isLiked);
-    debugger;
-    // const requestData = {
-    //   recipe: id,
-    // };
-    fetch(`/recipes/like`, {
+  };
+  // debugger;
+  useEffect(() => {
+    // if (saveRecipe)
+    fetch(`/recipeLikes`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ recipe: isLiked }),
+      body: JSON.stringify({ recipe: saveRecipe }),
     })
-      .then((response) => {
-        if (response.status === 200) {
-          setButtonActive(true);
-          console.log('Recipe liked successfully');
-        } else {
-          console.log('Failed to like the recipe');
-        }
+      .then((response) => response.json())
+      .then((data) => {
+        debugger;
+        setSaveRecipe();
+        setDisplayLikes(data.recipe);
+        setButtonActive(true);
+        console.log('success message');
       })
       .catch((error) => console.log(error));
-  };
+  }, []);
+
+  const likesSaved = localStorage.getItem('recipe');
 
   return (
     <div>

@@ -18,7 +18,7 @@ const LoadRecipe = () => {
 
   useEffect(() => {
     const ingredientsInStorage = localStorage.getItem('ingredients');
-    // console.log(ingredientsInStorage, 'ingredients in storage');
+    console.log(ingredientsInStorage, 'ingredients in storage');
   }, []);
 
   return (
