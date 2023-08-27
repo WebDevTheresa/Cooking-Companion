@@ -131,56 +131,16 @@ const postARecipe = async (req, res) => {
   }
 };
 
-const likeRecipe = async (req, res) => {
-  const client = new MongoClient(MONGO_URI, options);
-  const { recipe } = req.body;
-  console.log(req.body);
-  try {
-    await client.connect();
-    console.log('connected');
-
-    const db = client.db(DB_NAME);
-    const collection = db.collection(SAVED_COLLECTION);
-
-    const savedRecipe = await collection.findOne({ _id: new ObjectId(recipe) });
-
-    if (!savedRecipe) {
-      return res.status(404).json({ status: 404, message: 'Recipe not found' });
-    }
-
-    // Update the likes count
-    savedRecipe.likes = (savedRecipe.likes || 0) + 1;
-
-    // Update the existing recipe with the new likes count
-    await collection.updateOne(
-      { _id: new ObjectId(recipe) },
-      { $set: savedRecipe }
-    );
-
-    res.status(200).json({
-      status: 200,
-      message: 'Recipe liked successfully',
-      recipe: savedRecipe, // Return the updated recipe
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ status: 500, message: 'Internal error' });
-  } finally {
-    client.close();
-    console.log('disconnected');
-  }
-};
-
 // const likeRecipe = async (req, res) => {
 //   const client = new MongoClient(MONGO_URI, options);
-//   console.log(recipe);
+//   const { recipe } = req.body;
+//   // console.log(recipe);
 //   try {
 //     await client.connect();
 //     console.log('connected');
 
 //     const db = client.db(DB_NAME);
 //     const collection = db.collection(SAVED_COLLECTION);
-//     const { recipe } = req.body;
 
 //     const savedRecipe = await collection.findOne({ _id: new ObjectId(recipe) });
 
@@ -188,7 +148,7 @@ const likeRecipe = async (req, res) => {
 //       return res.status(404).json({ status: 404, message: 'Recipe not found' });
 //     }
 
-//     savedRecipe.likes = (savedRecipe.likes || 0) + 1;
+// savedRecipe.likes = (savedRecipe.likes || 0) + 1;
 
 //     await collection.updateOne(
 //       { _id: new ObjectId(recipe) },
@@ -208,6 +168,38 @@ const likeRecipe = async (req, res) => {
 //     console.log('disconnected');
 //   }
 // };
+
+const likeRecipe = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+
+  const { recipe } = req.body;
+
+  try {
+    await client.connect();
+    console.log('connected');
+
+    const db = client.db(DB_NAME);
+    const collection = db.collection(SAVED_COLLECTION);
+
+    const saveRecipe = {
+      recipe,
+    };
+
+    const result = await collection.insertOne(saveRecipe);
+    console.log(result);
+    res.status(200).json({
+      status: 200,
+      message: 'Recipe saved successfully',
+      recipe,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: 500, message: 'Internal error' });
+  } finally {
+    client.close();
+    console.log('disconnected');
+  }
+};
 
 module.exports = {
   getIngredients,
