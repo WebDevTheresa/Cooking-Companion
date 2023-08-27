@@ -13,11 +13,6 @@ const PostRecipe = () => {
   // console.log(addRecipe);
 
   const handlePost = () => {
-    // const postData = {
-    //   foodtype: '',
-    //   name: '',
-    //   ingredients: [],
-    // };
     console.log();
 
     fetch(`/recipes`, {
