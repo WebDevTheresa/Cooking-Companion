@@ -21,7 +21,7 @@ const Feed = () => {
                 style={{ width: 400, height: 400 }}
               />
               {/* <p>Likes:{recipe.likes}</p> */}
-              <LikesBar />
+              <LikesBar recipe={recipe} />
             </ContentsWrapper>
           );
         })}
