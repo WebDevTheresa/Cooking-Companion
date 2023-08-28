@@ -18,7 +18,7 @@ const LoadRecipe = () => {
 
   useEffect(() => {
     const ingredientsInStorage = localStorage.getItem('ingredients');
-    console.log(ingredientsInStorage, 'ingredients in storage');
+    // console.log(ingredientsInStorage, 'ingredients in storage');
   }, []);
 
   return (
@@ -32,11 +32,6 @@ const LoadRecipe = () => {
 
 const MainWrapper = styled.div`
   margin: 0;
-  /* background-image: url(${cooking});
-  /* background-repeat: repeat; */
-  /* background-size: cover;
-  height: 100vh;
-  position: relative; */
   background-image: linear-gradient(
     to right top,
     #f4f2d5,
