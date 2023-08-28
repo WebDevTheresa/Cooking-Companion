@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Sidebar from './SideBar';
 import { Link, NavLink } from 'react-router-dom';
 import { display } from '@mui/system';
-
+import DislikesBar from './DislikesBar';
 const UserLikes = ({ SetDisplayLikes }) => {
   const [displayLikes, setDisplayLikes] = useState();
 
@@ -45,10 +45,15 @@ const UserLikes = ({ SetDisplayLikes }) => {
           displayLikes.map((likes, index) => {
             const uniqueKey = `recipe_${index}`;
             return (
-              <LikedUserRecipes key={uniqueKey}>
+              <ContentsWrapper key={uniqueKey}>
                 <TitleDiv>{likes.recipe.title}</TitleDiv>
-                <RecipeImg src={likes.recipe.image} alt={likes.recipe.title} />
-              </LikedUserRecipes>
+                <DislikesBar />
+                <RecipeImg
+                  src={likes.recipe.image}
+                  alt={likes.recipe.title}
+                  style={{ width: 400, height: 400 }}
+                />
+              </ContentsWrapper>
             );
           })}
       </ShowLikesDiv>
@@ -57,11 +62,7 @@ const UserLikes = ({ SetDisplayLikes }) => {
 };
 
 const MainWrapper = styled.div`
-  /* border-bottom: solid 8px lightgrey; */
   margin: 0;
-  background-image: url(${cooking});
-  background-repeat: repeat;
-  background-size: cover;
   height: 100vh;
   position: relative;
   @media screen and (max-width: 768px) {
@@ -72,22 +73,35 @@ const MainWrapper = styled.div`
 `;
 const RecipeImg = styled.img`
   height: 200px;
-
+  padding: 20px;
   width: 200px;
 `;
+
 const LikedUserRecipes = styled.div`
   display: flex;
   flex-wrap: wrap;
-  padding: 30px;
+  padding: 15px;
 
   background-color: white;
 `;
 const TitleDiv = styled.div`
-  display: flex;
+  inline-size: 350px;
+  overflow-wrap: break-word;
 `;
 const ShowLikesDiv = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  margin-left: 15px;
 `;
+
+const ContentsWrapper = styled.div`
+  border: solid 2px beige;
+  padding: 15px;
+  /* display: flex; */
+  /* justify-content: center;
+  flex-direction: row; */
+`;
+
 const NavigationLink = styled(NavLink)`
   font-size: 24px;
   font-weight: bold;
@@ -103,7 +117,8 @@ const NavigationLink = styled(NavLink)`
 `;
 const Wrapper = styled.div`
   display: flex;
-  margin-left: 20px;
+  margin-left: 0 0 20px 20px;
+
   flex-direction: column;
   justify-content: space-between;
   width: 190px;

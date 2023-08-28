@@ -1,34 +1,18 @@
 import styled from 'styled-components';
-import React, { useState } from 'react'; // Corrected capitalization
+import React, { useEffect, useState } from 'react'; // Corrected capitalization
 import { NavLink, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import UserLikes from './UserLikes';
 
 const Sidebar = () => {
-  // const [likes, setLikes] = useState();
+  // const [displayLikes, setDisplayLikes] = useState();
+
   // const [buttonActive, setButtonActive] = useState(false);
-  // const { id } = useParams;
 
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleSaveClick = () => {
     navigate(`/UserLikes`);
-    // fetch(`/recipes/${id}/like`, {
-    //   method: 'POST',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({ recipe: likes }),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     debugger;
-    //     setLikes('');
-    //     setButtonActive(true);
-    //     console.log('success message');
-    //   })
-    //   .catch((error) => console.log(error));
   };
 
   return (
@@ -36,7 +20,7 @@ const Sidebar = () => {
       <Wrapper>
         <NavigationLink to="/"> Home</NavigationLink>
         <NavigationLink to="/FoodSelection"> Ingredients</NavigationLink>
-        <AddRecipeButton onClick={handleClick}>My Likes</AddRecipeButton>
+        <AddRecipeButton onClick={handleSaveClick}>My Likes</AddRecipeButton>
       </Wrapper>
     </div>
   );
