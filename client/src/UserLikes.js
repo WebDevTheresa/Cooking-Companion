@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Sidebar from './SideBar';
 import { Link, NavLink } from 'react-router-dom';
 import { display } from '@mui/system';
-import DislikesBar from './DislikesBar';
+import DislikesNotesBar from './DislikesNotesBar';
 const UserLikes = ({ SetDisplayLikes }) => {
   const [displayLikes, setDisplayLikes] = useState();
 
@@ -47,7 +47,7 @@ const UserLikes = ({ SetDisplayLikes }) => {
             return (
               <ContentsWrapper key={uniqueKey}>
                 <TitleDiv>{likes.recipe.title}</TitleDiv>
-                <DislikesBar />
+                <DislikesNotesBar />
                 <RecipeImg
                   src={likes.recipe.image}
                   alt={likes.recipe.title}
@@ -117,7 +117,7 @@ const NavigationLink = styled(NavLink)`
 `;
 const Wrapper = styled.div`
   display: flex;
-  margin-left: 0 0 20px 20px;
+  margin: 0 0 20px 20px;
 
   flex-direction: column;
   justify-content: space-between;
