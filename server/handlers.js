@@ -71,7 +71,7 @@ const createUser = async (req, res) => {
 
 const deleteRecipe = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-  const { id } = req.params;
+  const { recipeData } = req.body;
   // console.log(id);
   try {
     await client.connect();
@@ -80,12 +80,16 @@ const deleteRecipe = async (req, res) => {
     const db = client.db(DB_NAME);
     const collection = db.collection(SAVED_COLLECTION);
 
-    const recipe = await collection.findOneAndDelete({ _id: new ObjectId(id) });
+    const recipeToDelete = {
+      recipe: recipeData,
+    };
+
+    const recipe = await collection.deleteOne(recipeToDelete);
     console.log(recipe);
-    if (!recipe.value) {
+
+    if (!recipe) {
       return res.status(404).json({ status: 404, message: 'Recipe not found' });
     }
-
     res
       .status(200)
       .json({ status: 200, message: 'Recipe deleted successfully' });
