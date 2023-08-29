@@ -13,7 +13,7 @@ const router = require('express').Router();
 
 router.get('/getIngredients', getIngredients);
 router.post('/createUser', createUser);
-router.delete('/deleteRecipe/:id', deleteRecipe);
+router.delete('/deleteRecipe/', deleteRecipe);
 router.post('/recipes', postARecipe);
 router.post('/recipeLikes', likeRecipe);
 router.get('/getSavedRecipes', getSavedRecipes);
