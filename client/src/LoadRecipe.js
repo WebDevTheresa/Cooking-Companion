@@ -24,7 +24,6 @@ const LoadRecipe = () => {
   return (
     <MainWrapper>
       <Backbutton onClick={returnHome}>⮐</Backbutton>
-
       <Feed />
     </MainWrapper>
   );
@@ -54,15 +53,15 @@ const MainWrapper = styled.div`
   }
 `;
 
-const ShowRecipes = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 500px;
-  height: 100vh;
-  background-color: white;
-  border: 2px black solid;
-`;
+// const ShowRecipes = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   width: 500px;
+//   height: 100vh;
+//   background-color: white;
+//   border: 2px black solid;
+// `;
 const Backbutton = styled.button`
   background-color: #666600;
   margin-left: 20px;
