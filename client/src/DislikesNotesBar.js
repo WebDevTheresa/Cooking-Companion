@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import MenuBookSharpIcon from '@mui/icons-material/MenuBookSharp';
@@ -14,6 +14,20 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [displayRecipe, setDisplayRecipe] = useState();
   //delete fetch triggers when button clicked
+
+  useEffect(() => {
+    const storedRecipeText = localStorage.getItem('recipeText');
+    if (storedRecipeText) {
+      setAddRecipe(storedRecipeText);
+    }
+
+    const storedSubmittedRecipe = localStorage.getItem('submittedRecipe');
+    if (storedSubmittedRecipe) {
+      setDisplayRecipe(storedSubmittedRecipe);
+      setIsButtonClicked(true);
+    }
+  }, []);
+
   const handleDiscardButton = () => {
     setIsLiked(!isLiked);
     fetch(`/deleteRecipe/`, {
@@ -39,7 +53,6 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
 
     // console.log(data);
   };
-
   // text box should popup when clicked and the postend point should be called
   const handleNoteSubmit = () => {
     setClickNoteAdded(!clickNoteAdded);
@@ -53,11 +66,12 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // debugger;
+        debugger;
         setAddRecipe('');
         setDisplayRecipe(data.recipe);
         setIsButtonClicked(true);
         console.log('success message');
+        localStorage.setItem('submittedRecipe', JSON.stringify(data.recipe));
       })
       .catch((error) => console.log(error));
   };
@@ -65,6 +79,7 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
   const handleRecipe = (event) => {
     const recipeText = event.target.value;
     setAddRecipe(recipeText);
+    localStorage.setItem('recipeText', recipeText);
   };
   const handleAddNote = () => {
     setClickNoteAdded(!clickNoteAdded);
