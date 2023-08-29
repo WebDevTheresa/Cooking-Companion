@@ -10,9 +10,7 @@ const UserLikes = ({ SetDisplayLikes }) => {
   const [displayLikes, setDisplayLikes] = useState();
 
   const navigate = useNavigate();
-  // const returnHome = () => {
-  // navigate(`/LoadRecipe`);
-  // debugger;
+
   useEffect(() => {
     fetch('/getSavedRecipes')
       .then((res) => {
@@ -29,7 +27,10 @@ const UserLikes = ({ SetDisplayLikes }) => {
         console.error('Fetch error:', error);
       });
   }, []);
-  // };
+
+  if (!displayLikes) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <MainWrapper>
@@ -47,7 +48,11 @@ const UserLikes = ({ SetDisplayLikes }) => {
             return (
               <ContentsWrapper key={uniqueKey}>
                 <TitleDiv>{likes.recipe.title}</TitleDiv>
-                <DislikesNotesBar />
+                <DislikesNotesBar
+                  displayLikes={displayLikes}
+                  setDisplayLikes={setDisplayLikes}
+                  recipeId={likes.recipe.id}
+                />
                 <RecipeImg
                   src={likes.recipe.image}
                   alt={likes.recipe.title}
