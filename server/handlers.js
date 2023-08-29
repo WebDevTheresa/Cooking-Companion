@@ -7,6 +7,7 @@ const { DB_NAME } = process.env;
 const { MENU_COLLECTION } = process.env;
 const { USER_COLLECTION } = process.env;
 const { SAVED_COLLECTION } = process.env;
+const { POST_COLLECTION } = process.env;
 
 const options = {
   useNewUrlParser: true,
@@ -80,11 +81,7 @@ const deleteRecipe = async (req, res) => {
     const db = client.db(DB_NAME);
     const collection = db.collection(SAVED_COLLECTION);
 
-    const recipeToDelete = {
-      recipe: recipeData,
-    };
-
-    const recipe = await collection.deleteOne(recipeToDelete);
+    const recipe = await collection.deleteOne({ 'recipe.id': recipeData });
     console.log(recipe);
 
     if (!recipe) {
@@ -113,7 +110,7 @@ const postARecipe = async (req, res) => {
     console.log('connected');
 
     const db = client.db(DB_NAME);
-    const collection = db.collection(MENU_COLLECTION);
+    const collection = db.collection(POST_COLLECTION);
 
     const newRecipe = {
       recipe,
@@ -123,7 +120,7 @@ const postARecipe = async (req, res) => {
     console.log(result);
     res.status(200).json({
       status: 200,
-      message: 'Recipe saved successfully',
+      message: 'Note Added successfully',
       recipe,
     });
   } catch (error) {
