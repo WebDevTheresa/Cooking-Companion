@@ -6,7 +6,7 @@ import AccordionItem from './AccordionItem';
 import cooking from './pictures/cooking.png';
 import { useNavigate } from 'react-router-dom';
 import Profile from './Profile';
-import Sidebar from './SideBar';
+// import Sidebar from './SideBar';
 
 const FoodSelection = ({ items, title, user }) => {
   const navigate = useNavigate();
@@ -19,7 +19,6 @@ const FoodSelection = ({ items, title, user }) => {
   };
 
   const searchRecipes = async () => {
-    // debugger;
     const url = `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=${localStorage
       .getItem('ingredients')
       .replaceAll(',', '%2C')}&number=5&ignorePantry=true&ranking=1`;
@@ -58,10 +57,10 @@ const FoodSelection = ({ items, title, user }) => {
       title: 'Starch',
       content: 'Content for item 2...',
     },
-    {
-      title: 'Dairy',
-      content: 'Content for item 2...',
-    },
+    // {
+    //   title: 'Dairy',
+    //   content: 'Content for item 2...',
+    // },
     // {
     //   title: 'Spices',
     //   content: 'Content for item 2...',

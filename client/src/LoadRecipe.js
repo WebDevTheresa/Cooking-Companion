@@ -6,6 +6,8 @@ import cooking from './pictures/cooking.png';
 import AccordionItem from './AccordionItem';
 import Feed from './Feed';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import Profile from './Profile';
+import LogoutButton from './LogoutButton';
 
 const LoadRecipe = () => {
   const navigate = useNavigate();
@@ -24,6 +26,10 @@ const LoadRecipe = () => {
   return (
     <MainWrapper>
       <Backbutton onClick={returnHome}>⮐</Backbutton>
+      <LogoutDiv>
+        <LogoutButton />
+      </LogoutDiv>
+      <Profile />
       <Feed />
     </MainWrapper>
   );
@@ -51,6 +57,12 @@ const MainWrapper = styled.div`
       background-size: inherit;
     }
   }
+`;
+
+const LogoutDiv = styled.div`
+  display: flex;
+
+  justify-content: flex-end;
 `;
 
 // const ShowRecipes = styled.div`

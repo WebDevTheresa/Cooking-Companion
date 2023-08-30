@@ -7,12 +7,7 @@ const Accordion = ({ items }) => {
   return (
     <WrapperAccord>
       {items.map((item, index) => (
-        <AccordionItem
-          key={index}
-          title={item.title}
-          // content={content}
-          // toggleAccordion={}
-        />
+        <AccordionItem key={index} title={item.title} />
       ))}
     </WrapperAccord>
   );

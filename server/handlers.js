@@ -99,7 +99,7 @@ const deleteRecipe = async (req, res) => {
   }
 };
 
-const postARecipe = async (req, res) => {
+const postANote = async (req, res) => {
   console.log(req.body);
   const client = new MongoClient(MONGO_URI, options);
 
@@ -193,11 +193,51 @@ const getSavedRecipes = async (req, res) => {
   }
 };
 
+const patchARecipe = async (req, res) => {
+  const { recipeId, updatedRecipe } = req.body;
+
+  if (!recipeId || !updatedRecipe) {
+    return res.status(400).json({ status: 400, message: 'Invalid request' });
+  }
+
+  const client = new MongoClient(MONGO_URI, options);
+
+  try {
+    await client.connect();
+
+    const db = client.db(DB_NAME);
+    const collection = db.collection(POST_COLLECTION);
+
+    const patchNote = {
+      recipeId,
+      updatedRecipe,
+    };
+    const result = await collection.updateOne(patchNote);
+    console.log(result);
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ status: 404, message: 'Recipe not found' });
+    }
+
+    res.status(200).json({
+      status: 200,
+      message: 'Recipe updated successfully',
+      recipeId,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: 500, message: 'Internal error' });
+  } finally {
+    client.close();
+  }
+};
+
 module.exports = {
   getIngredients,
   createUser,
   deleteRecipe,
-  postARecipe,
+  postANote,
   likeRecipe,
   getSavedRecipes,
+  patchARecipe,
 };

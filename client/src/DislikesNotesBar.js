@@ -2,8 +2,7 @@ import styled from 'styled-components';
 import { React, useState, useEffect } from 'react';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
-import MenuBookSharpIcon from '@mui/icons-material/MenuBookSharp';
-import { useParams } from 'react-router-dom';
+import EditIcon from '@mui/icons-material/Edit';
 
 const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
   const [isLiked, setIsLiked] = useState(false);
@@ -47,7 +46,7 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
         );
         // console.log(result)
         setDisplayLikes(result);
-        debugger;
+        // debugger;
       })
       .catch((error) => console.error(error));
 
@@ -85,17 +84,27 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
     setClickNoteAdded(!clickNoteAdded);
   };
 
-  const handleReadNote = () => {
+  const handleEditNote = (event) => {
+    // debugger;
+
     setClickReadNote(!clickReadNote);
-    // should be able to read note that was posted, maybe when clicked a counter will show on the image
-    // or when you hover over the icon it shows the note in a modal
+    fetch(`/patchARecipe`, {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ recipeId: recipeId, updatedRecipe: addRecipe }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('success message after PATCH');
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
     <div>
-      <DeleteButtonWithIcon onClick={handleDiscardButton} active={isLiked}>
-        <DeleteOutlineIcon />
-      </DeleteButtonWithIcon>
       <SubmitDiv>
         {clickNoteAdded && (
           <>
@@ -109,16 +118,19 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
             </NoteSubmitButton>
           </>
         )}
-
         {isButtonClicked && <RenderedText>{displayRecipe}</RenderedText>}
         <NoteButtonWithIcon onClick={handleAddNote} active={clickNoteAdded}>
           <NoteAddIcon />
         </NoteButtonWithIcon>
+
+        <EditButtonWithIcon onClick={handleEditNote} active={clickReadNote}>
+          <EditIcon />
+        </EditButtonWithIcon>
       </SubmitDiv>
 
-      {/* <ReadButtonWithIcon onClick={handleReadNote} active={clickReadNote}>
-        <MenuBookSharpIcon />
-      </ReadButtonWithIcon> */}
+      <DeleteButtonWithIcon onClick={handleDiscardButton} active={isLiked}>
+        <DeleteOutlineIcon />
+      </DeleteButtonWithIcon>
     </div>
   );
 };
@@ -137,12 +149,12 @@ const NoteButtonWithIcon = styled.button`
   /* Add more shared styling here */
 `;
 
-// const ReadButtonWithIcon = styled.button`
-//   color: ${(props) => (props.active ? 'blue' : 'black')};
-//   border: none;
-//   background-color: white;
-//   /* Add more shared styling here */
-// `;
+const EditButtonWithIcon = styled.button`
+  color: ${(props) => (props.active ? 'blue' : 'black')};
+  border: none;
+  background-color: white;
+  /* Add more shared styling here */
+`;
 
 const SubmitDiv = styled.div`
   display: flex;

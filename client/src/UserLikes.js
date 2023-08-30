@@ -6,6 +6,8 @@ import Sidebar from './SideBar';
 import { Link, NavLink } from 'react-router-dom';
 import { display } from '@mui/system';
 import DislikesNotesBar from './DislikesNotesBar';
+import LogoutButton from './LogoutButton';
+import Profile from './Profile';
 const UserLikes = ({ SetDisplayLikes }) => {
   const [displayLikes, setDisplayLikes] = useState();
 
@@ -34,6 +36,10 @@ const UserLikes = ({ SetDisplayLikes }) => {
 
   return (
     <MainWrapper>
+      <LogoutDiv>
+        <LogoutButton />
+      </LogoutDiv>
+      <Profile />
       {/* <Backbutton onClick={returnHome}>⮐</Backbutton> */}
       <Wrapper>
         <NavigationLink to="/"> Home</NavigationLink>
@@ -48,6 +54,7 @@ const UserLikes = ({ SetDisplayLikes }) => {
             return (
               <ContentsWrapper key={uniqueKey}>
                 <TitleDiv>{likes.recipe.title}</TitleDiv>
+                <p>User Likes: &nbsp;{likes.recipe.likes}</p>
                 <DislikesNotesBar
                   displayLikes={displayLikes}
                   setDisplayLikes={setDisplayLikes}
@@ -141,5 +148,11 @@ const Backbutton = styled.button`
   color: white;
   border-radius: 10px;
   display: block;
+`;
+
+const LogoutDiv = styled.div`
+  display: flex;
+
+  justify-content: flex-end;
 `;
 export default UserLikes;

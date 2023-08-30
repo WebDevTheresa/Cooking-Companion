@@ -41,8 +41,6 @@ const RecipeFeed = styled.div`
   margin-left: 120px;
   justify-content: center;
   padding: 60px;
-  /* margin-left: 65px; */
-  /* width: 500px; */
   border: 1px solid rgb(230, 230, 230);
   background-color: white;
 `;
