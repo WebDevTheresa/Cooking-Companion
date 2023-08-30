@@ -50,6 +50,6 @@ const Wrapper = styled.div`
 `;
 
 const Header = styled.h2`
-  color: #edba72;
+  color: #382a0b;
 `;
 export default Profile;

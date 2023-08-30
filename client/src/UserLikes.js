@@ -36,17 +36,18 @@ const UserLikes = ({ SetDisplayLikes }) => {
 
   return (
     <MainWrapper>
-      <LogoutDiv>
-        <LogoutButton />
-      </LogoutDiv>
-      <Profile />
-      {/* <Backbutton onClick={returnHome}>⮐</Backbutton> */}
-      <Wrapper>
-        <NavigationLink to="/"> Home</NavigationLink>
-        <NavigationLink to="/FoodSelection"> Ingredients</NavigationLink>
-        <NavigationLink to="/LoadRecipe"> Recipes</NavigationLink>
-      </Wrapper>
-
+      <BackgroundImgDiv>
+        <LogoutDiv>
+          <LogoutButton />
+        </LogoutDiv>
+        <Profile />
+        {/* <Backbutton onClick={returnHome}>⮐</Backbutton> */}
+        <Wrapper>
+          <NavigationLink to="/"> Home</NavigationLink>
+          <NavigationLink to="/FoodSelection"> Ingredients</NavigationLink>
+          <NavigationLink to="/LoadRecipe"> Recipes</NavigationLink>
+        </Wrapper>
+      </BackgroundImgDiv>
       <ShowLikesDiv>
         {displayLikes &&
           displayLikes.map((likes, index) => {
@@ -76,6 +77,19 @@ const UserLikes = ({ SetDisplayLikes }) => {
 const MainWrapper = styled.div`
   margin: 0;
   height: 100vh;
+  position: relative;
+  @media screen and (max-width: 768px) {
+    body {
+      background-size: inherit;
+    }
+  }
+`;
+
+const BackgroundImgDiv = styled.div`
+  margin: 0;
+  background-image: url(${cooking});
+  background-size: cover;
+
   position: relative;
   @media screen and (max-width: 768px) {
     body {

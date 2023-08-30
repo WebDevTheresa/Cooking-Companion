@@ -25,11 +25,14 @@ const LoadRecipe = () => {
 
   return (
     <MainWrapper>
-      <Backbutton onClick={returnHome}>⮐</Backbutton>
-      <LogoutDiv>
-        <LogoutButton />
-      </LogoutDiv>
-      <Profile />
+      <BackgroundImgDiv>
+        <Backbutton onClick={returnHome}>⮐</Backbutton>
+        <LogoutDiv>
+          <LogoutButton />
+        </LogoutDiv>
+        <Profile />
+      </BackgroundImgDiv>
+
       <Feed />
     </MainWrapper>
   );
@@ -37,7 +40,8 @@ const LoadRecipe = () => {
 
 const MainWrapper = styled.div`
   margin: 0;
-  background-image: linear-gradient(
+  background-color: #ccc4b4;
+  /* background-image: linear-gradient(
     to right top,
     #f4f2d5,
     #e8e3be,
@@ -51,7 +55,7 @@ const MainWrapper = styled.div`
     #947d2d,
     #89721c,
     #7e6806
-  );
+  ); */
   @media screen and (max-width: 768px) {
     body {
       background-size: inherit;
@@ -59,6 +63,17 @@ const MainWrapper = styled.div`
   }
 `;
 
+const BackgroundImgDiv = styled.div`
+  margin: 0;
+  background-image: url(${cooking});
+  background-size: cover;
+  position: relative;
+  @media screen and (max-width: 768px) {
+    body {
+      background-size: inherit;
+    }
+  }
+`;
 const LogoutDiv = styled.div`
   display: flex;
 
