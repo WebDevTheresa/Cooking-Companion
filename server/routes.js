@@ -6,6 +6,7 @@ const {
   likeRecipe,
   getSavedRecipes,
   patchARecipe,
+  getNotes,
 } = require('./handlers');
 
 //fill in squiggles with endpoint names
@@ -19,6 +20,7 @@ router.post('/recipes', postANote);
 router.post('/recipeLikes', likeRecipe);
 router.get('/getSavedRecipes', getSavedRecipes);
 router.patch('/patchARecipe', patchARecipe);
+router.get('/getNotes', getNotes);
 
 router.get('hello', (req, res) => {
   return res.status(200).json({ status: 200, message: 'hello from server' });

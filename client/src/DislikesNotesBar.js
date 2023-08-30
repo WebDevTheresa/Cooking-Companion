@@ -12,19 +12,39 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
   const [addRecipe, setAddRecipe] = useState('');
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [displayRecipe, setDisplayRecipe] = useState();
+  const [notes, setNotes] = useState();
+
   //delete fetch triggers when button clicked
 
-  useEffect(() => {
-    const storedRecipeText = localStorage.getItem('recipeText');
-    if (storedRecipeText) {
-      setAddRecipe(storedRecipeText);
-    }
+  const fetchNotes = () => {
+    fetch(`/getNotes/?id=${recipeId}`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('cannot find note');
+        } else {
+          return res.json();
+        }
+      })
+      .then((data) => {
+        setNotes(data.notes);
+        setAddRecipe(data.notes.length ? data.notes[0].note : '');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-    const storedSubmittedRecipe = localStorage.getItem('submittedRecipe');
-    if (storedSubmittedRecipe) {
-      setDisplayRecipe(storedSubmittedRecipe);
-      setIsButtonClicked(true);
-    }
+  useEffect(() => {
+    // const storedRecipeText = localStorage.getItem('recipeText');
+    // if (storedRecipeText) {
+    //   setAddRecipe(storedRecipeText);
+    // }
+    // const storedSubmittedRecipe = localStorage.getItem('submittedRecipe');
+    // if (storedSubmittedRecipe) {
+    //   setDisplayRecipe(storedSubmittedRecipe);
+    //   setIsButtonClicked(true);
+    // }
+    fetchNotes();
   }, []);
 
   const handleDiscardButton = () => {
@@ -61,13 +81,13 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ recipe: addRecipe }),
+      body: JSON.stringify({ note: addRecipe, id: recipeId }),
     })
       .then((response) => response.json())
       .then((data) => {
-        debugger;
-        setAddRecipe('');
-        setDisplayRecipe(data.recipe);
+        setAddRecipe(data.note);
+        console.log();
+        setNotes([{ note: data.note }]);
         setIsButtonClicked(true);
         console.log('success message');
         localStorage.setItem('submittedRecipe', JSON.stringify(data.recipe));
@@ -85,8 +105,6 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
   };
 
   const handleEditNote = (event) => {
-    // debugger;
-
     setClickReadNote(!clickReadNote);
     fetch(`/patchARecipe`, {
       method: 'PATCH',
@@ -106,6 +124,11 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
   return (
     <div>
       <SubmitDiv>
+        {notes &&
+          !!notes.length &&
+          notes.map((note) => {
+            return <p>{note.note}</p>;
+          })}
         {clickNoteAdded && (
           <>
             <TextArea
@@ -120,12 +143,12 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
         )}
         {isButtonClicked && <RenderedText>{displayRecipe}</RenderedText>}
         <NoteButtonWithIcon onClick={handleAddNote} active={clickNoteAdded}>
-          <NoteAddIcon />
+          {notes && notes.length ? <EditIcon /> : <NoteAddIcon />}
         </NoteButtonWithIcon>
 
-        <EditButtonWithIcon onClick={handleEditNote} active={clickReadNote}>
-          <EditIcon />
-        </EditButtonWithIcon>
+        {/* <EditButtonWithIcon onClick={handleEditNote} active={clickReadNote}>
+          
+        </EditButtonWithIcon> */}
       </SubmitDiv>
 
       <DeleteButtonWithIcon onClick={handleDiscardButton} active={isLiked}>

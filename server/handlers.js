@@ -103,7 +103,7 @@ const postANote = async (req, res) => {
   console.log(req.body);
   const client = new MongoClient(MONGO_URI, options);
 
-  const { recipe } = req.body;
+  const { note, id } = req.body;
 
   try {
     await client.connect();
@@ -113,15 +113,21 @@ const postANote = async (req, res) => {
     const collection = db.collection(POST_COLLECTION);
 
     const newRecipe = {
-      recipe,
+      note,
+      id,
     };
 
-    const result = await collection.insertOne(newRecipe);
+    const result = await collection.updateOne(
+      { id: id },
+      { $set: { note: note } },
+      { upsert: true }
+    );
     console.log(result);
     res.status(200).json({
       status: 200,
       message: 'Note Added successfully',
-      recipe,
+      note,
+      id,
     });
   } catch (error) {
     console.log(error);
@@ -232,6 +238,35 @@ const patchARecipe = async (req, res) => {
   }
 };
 
+const getNotes = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const { id } = req.query;
+  console.log(req.query);
+  try {
+    await client.connect();
+    console.log('connected');
+
+    const db = client.db(DB_NAME);
+    const collection = db.collection(POST_COLLECTION);
+
+    const notes = await collection.find({ id: Number.parseInt(id) }).toArray();
+
+    if (collection) {
+      res.status(200).json({
+        status: 200,
+        notes,
+        message: 'note retrieved successfully',
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: 500, message: 'Internal error' });
+  } finally {
+    // client.close();
+    console.log('disconnected');
+  }
+};
+
 module.exports = {
   getIngredients,
   createUser,
@@ -240,4 +275,5 @@ module.exports = {
   likeRecipe,
   getSavedRecipes,
   patchARecipe,
+  getNotes,
 };
