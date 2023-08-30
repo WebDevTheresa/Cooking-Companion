@@ -5,8 +5,6 @@ import styled from 'styled-components';
 const Profile = () => {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } =
     useAuth0();
-  //   const [newUser, setNewUser] = useState();
-  console.log(user);
   useEffect(() => {
     if (isAuthenticated && user) {
       fetch(`/createUser`, {
@@ -23,10 +21,7 @@ const Profile = () => {
           }
           return res.json();
         })
-        .then((data) => {
-          //   console.log(data);
-          // Handle the response data
-        })
+        .then((data) => {})
         .catch((error) => {
           console.error('Error:', error);
         });
@@ -41,7 +36,7 @@ const Profile = () => {
     isAuthenticated && (
       <Wrapper>
         {/* <Image src={user.picture} alt={user.name} /> */}
-        <h2>Hello! {user.name}</h2>
+        <Header>Hello! {user.name}</Header>
         {/* <p>{user.email}</p> */}
       </Wrapper>
     )
@@ -54,4 +49,7 @@ const Wrapper = styled.div`
   color: #ffff;
 `;
 
+const Header = styled.h2`
+  color: #382a0b;
+`;
 export default Profile;

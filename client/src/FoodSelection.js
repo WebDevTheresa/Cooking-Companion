@@ -1,23 +1,47 @@
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 import Accordion from './Accordion';
 import AccordionItem from './AccordionItem';
 import cooking from './pictures/cooking.png';
 import { useNavigate } from 'react-router-dom';
 import Profile from './Profile';
-import Sidebar from './SideBar';
+// import Sidebar from './SideBar';
 
-const FoodSelection = ({ items, title }) => {
+const FoodSelection = ({ items, title, user }) => {
   const navigate = useNavigate();
 
   const [chosenIngredients, setChosenIngredients] = useState([]);
-  console.log(items, 'items');
+  // console.log(items, 'items');
 
   const returnHome = () => {
     navigate(`/`);
   };
 
-  const searchRecipes = () => {
+  const searchRecipes = async () => {
+    const url = `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=${localStorage
+      .getItem('ingredients')
+      .replaceAll(',', '%2C')}&number=5&ignorePantry=true&ranking=1`;
+    const options = {
+      method: 'GET',
+      headers: {
+        'X-RapidAPI-Key': `0613153440mshe2a14ecb716c72dp15bed8jsn1e385404eac2`,
+        'X-RapidAPI-Host':
+          'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com',
+      },
+    };
+
+    try {
+      const response = await fetch(url, options);
+      const result = await response.json();
+      // debugger;
+      localStorage.setItem('ingredients', '');
+      localStorage.setItem('recipeResults', JSON.stringify(result));
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+
     navigate(`/LoadRecipe`);
   };
 
@@ -33,10 +57,10 @@ const FoodSelection = ({ items, title }) => {
       title: 'Starch',
       content: 'Content for item 2...',
     },
-    {
-      title: 'Dairy',
-      content: 'Content for item 2...',
-    },
+    // {
+    //   title: 'Dairy',
+    //   content: 'Content for item 2...',
+    // },
     // {
     //   title: 'Spices',
     //   content: 'Content for item 2...',
@@ -68,7 +92,6 @@ const FoodSelection = ({ items, title }) => {
 const MainWrapper = styled.div`
   margin: 0;
   background-image: url(${cooking});
-  /* background-repeat: repeat; */
   background-size: cover;
   height: 100vh;
   position: relative;
@@ -110,13 +133,13 @@ const ButtonWrapper = styled.div`
   justify-content: space-evenly;
 `;
 
-const ContentsButton = styled.button`
-  width: 90px;
-  height: 37px;
-  border-style: none;
-  border-radius: 22%;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-`;
+// const ContentsButton = styled.button`
+//   width: 90px;
+//   height: 37px;
+//   border-style: none;
+//   border-radius: 22%;
+//   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+// `;
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -132,7 +155,7 @@ const Header = styled.h1`
 
 const Backbutton = styled.button`
   background-color: #666600;
-  margin-left: 10px;
+  margin-left: 20px;
   height: 50px;
   text-align: center;
   background-size: 200% auto;

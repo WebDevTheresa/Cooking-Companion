@@ -5,9 +5,11 @@ import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
 import Profile from './Profile';
 import Navbar from './Navbar';
+import { useAuth0 } from '@auth0/auth0-react';
 //fix responsiveness for background image
 const Home = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth0();
 
   const handleButtonClick = () => {
     navigate('/FoodSelection');
@@ -21,8 +23,10 @@ const Home = () => {
           Cooking <br></br>Companion
         </Header>
 
-        <Button onClick={handleButtonClick}>Enter</Button>
-        <p>Cooking Simplified: Your Ingredients, Endless Possibilities.</p>
+        <Button onClick={handleButtonClick} disabled={!isAuthenticated}>
+          Enter
+        </Button>
+        <Prompt>Please Log In to proceed</Prompt>
       </ElementsWrapper>
     </MainWrapper>
   );
@@ -51,18 +55,18 @@ const Button = styled.button`
   height: 77px;
   font-size: 43px;
   width: 221px;
-  background-color: #524333;
+
   color: #e3d7ba;
   border: none;
   border-radius: 38px;
   color: white;
   margin-left: 80px;
-
-  &:hover {
-    background-color: #635b48;
-  }
+  background-color: ${(props) => (props.disabled ? '#ccc' : '#524333')};
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
 `;
-
+const Prompt = styled.p`
+  margin-left: 100px;
+`;
 const Header = styled.h1`
   font-size: 87px;
   font-family: Arial, Helvetica, sans-serif;

@@ -1,12 +1,18 @@
 import styled from 'styled-components';
-import react from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'; // Corrected capitalization
+import { NavLink, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import PostRecipe from './PostRecipe';
+import UserLikes from './UserLikes';
+
 const Sidebar = () => {
+  // const [displayLikes, setDisplayLikes] = useState();
+
+  // const [buttonActive, setButtonActive] = useState(false);
+
   const navigate = useNavigate();
-  const handleClick = () => {
-    navigate(`/PostRecipe`);
+
+  const handleSaveClick = () => {
+    navigate(`/UserLikes`);
   };
 
   return (
@@ -14,8 +20,7 @@ const Sidebar = () => {
       <Wrapper>
         <NavigationLink to="/"> Home</NavigationLink>
         <NavigationLink to="/FoodSelection"> Ingredients</NavigationLink>
-
-        <AddRecipeButton onClick={handleClick}>Add My Recipe</AddRecipeButton>
+        <AddRecipeButton onClick={handleSaveClick}>My Likes</AddRecipeButton>
       </Wrapper>
     </div>
   );
@@ -40,6 +45,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   margin-right: 80px;
+  margin-left: 20px;
   background-color: #f7f0e6;
   padding: 30px;
   border-radius: 30px;

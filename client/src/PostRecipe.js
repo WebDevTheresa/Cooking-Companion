@@ -2,40 +2,37 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import cooking from './pictures/cooking.png';
 import { useNavigate } from 'react-router-dom';
-import SideBar from './SideBar';
 import { Link, NavLink } from 'react-router-dom';
 
 const PostRecipe = () => {
   const navigate = useNavigate();
   const [addRecipe, setAddRecipe] = useState('');
-  const [characterCount, setCharacterCount] = useState(1500);
-  console.log(addRecipe);
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [displayRecipe, setDisplayRecipe] = useState();
+  // console.log(addRecipe);
 
   const handlePost = () => {
+    console.log();
+
     fetch(`/recipes`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ status: addRecipe }),
+      body: JSON.stringify({ recipe: addRecipe }),
     })
-      .then((res) => {
-        if (res.ok) {
-          setAddRecipe('');
-          setCharacterCount(1500);
-          console.log('success message');
-        }
+      .then((response) => response.json())
+      .then((data) => {
+        debugger;
+        setAddRecipe('');
+        setDisplayRecipe(data.recipe);
+        setIsButtonClicked(true);
+        console.log('success message');
       })
       .catch((error) => console.log(error));
   };
 
-  // const handleRecipe = (event) => {
-  // const recipeText = event.target.value;
-  //   setAddRecipe(recipeText);
-  // const remainingCharacters = 1500 - recipeText.length;
-  // setCharacterCount(remainingCharacters);
-  // };
   const handleRecipe = (event) => {
     const recipeText = event.target.value;
     setAddRecipe(recipeText);
@@ -44,9 +41,6 @@ const PostRecipe = () => {
   const searchRecipes = () => {
     navigate(`/LoadRecipe`);
   };
-
-  const countDisplayColor =
-    characterCount >= 55 ? 'grey' : characterCount >= 0 ? 'orange' : 'red';
 
   return (
     <MainWrapper>
@@ -63,17 +57,16 @@ const PostRecipe = () => {
           onChange={handleRecipe}
           value={addRecipe}
         />
-        <Button onClick={handlePost}>Add Recipe</Button>
-        {/* <CharacterCount color={countDisplayColor}>
-          {characterCount} characters remaining
-        </CharacterCount> */}
+        <SubmitDiv>
+          {isButtonClicked && <RenderedText>{displayRecipe}</RenderedText>}
+          <Button onClick={handlePost}>Add Recipe</Button>
+        </SubmitDiv>
       </TextAreaWrapper>
     </MainWrapper>
   );
 };
 
 const MainWrapper = styled.div`
-  /* border-bottom: solid 8px lightgrey; */
   margin: 0;
   background-image: url(${cooking});
   background-repeat: repeat;
@@ -126,8 +119,10 @@ const Button = styled.button`
   }
 `;
 
-const CharacterCount = styled.p`
-  color: ${(props) => props.color};
+const RenderedText = styled.div`
+  margin: 20px;
+  font-size: 18px;
+  white-space: pre-wrap;
 `;
 
 const Backbutton = styled.button`
@@ -165,6 +160,14 @@ const NavigationLink = styled(NavLink)`
   }
 `;
 
+const SubmitDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+`;
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;

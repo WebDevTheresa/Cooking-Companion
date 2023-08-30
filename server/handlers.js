@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 require('dotenv').config({ path: '../.env' });
 
@@ -6,6 +6,8 @@ const { MONGO_URI } = process.env;
 const { DB_NAME } = process.env;
 const { MENU_COLLECTION } = process.env;
 const { USER_COLLECTION } = process.env;
+const { SAVED_COLLECTION } = process.env;
+const { POST_COLLECTION } = process.env;
 
 const options = {
   useNewUrlParser: true,
@@ -70,21 +72,21 @@ const createUser = async (req, res) => {
 
 const deleteRecipe = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-  const { id } = req.params;
-
+  const { recipeData } = req.body;
+  // console.log(id);
   try {
     await client.connect();
     console.log('connected');
 
     const db = client.db(DB_NAME);
-    const collection = db.collection(MENU_COLLECTION);
+    const collection = db.collection(SAVED_COLLECTION);
 
-    const recipe = await collection.findOneAndDelete({ _id: new ObjectID(id) });
+    const recipe = await collection.deleteOne({ 'recipe.id': recipeData });
+    console.log(recipe);
 
-    if (!recipe.value) {
+    if (!recipe) {
       return res.status(404).json({ status: 404, message: 'Recipe not found' });
     }
-
     res
       .status(200)
       .json({ status: 200, message: 'Recipe deleted successfully' });
@@ -97,29 +99,35 @@ const deleteRecipe = async (req, res) => {
   }
 };
 
-const postARecipe = async (req, res) => {
+const postANote = async (req, res) => {
+  console.log(req.body);
   const client = new MongoClient(MONGO_URI, options);
-  const { foodtype, name, ingredients } = req.body;
+
+  const { note, id } = req.body;
 
   try {
     await client.connect();
     console.log('connected');
 
     const db = client.db(DB_NAME);
-    const collection = db.collection(MENU_COLLECTION);
+    const collection = db.collection(POST_COLLECTION);
 
     const newRecipe = {
-      foodtype,
-      name,
-      ingredients,
+      note,
+      id,
     };
 
-    const result = await collection.insertOne(newRecipe);
-
+    const result = await collection.updateOne(
+      { id: id },
+      { $set: { note: note } },
+      { upsert: true }
+    );
+    console.log(result);
     res.status(200).json({
       status: 200,
-      message: 'Recipe created successfully',
-      data: result.ops[0],
+      message: 'Note Added successfully',
+      note,
+      id,
     });
   } catch (error) {
     console.log(error);
@@ -130,4 +138,142 @@ const postARecipe = async (req, res) => {
   }
 };
 
-module.exports = { getIngredients, createUser, deleteRecipe, postARecipe };
+const likeRecipe = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+
+  const { recipe } = req.body;
+
+  try {
+    await client.connect();
+    console.log('connected');
+
+    const db = client.db(DB_NAME);
+    const collection = db.collection(SAVED_COLLECTION);
+
+    const saveRecipe = {
+      recipe,
+    };
+
+    const result = await collection.insertOne(saveRecipe);
+    console.log(result);
+    res.status(200).json({
+      status: 200,
+      message: 'Recipe saved successfully',
+      recipe,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: 500, message: 'Internal error' });
+  } finally {
+    client.close();
+    console.log('disconnected');
+  }
+};
+
+const getSavedRecipes = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+
+  try {
+    await client.connect();
+    console.log('connected');
+
+    const db = client.db(DB_NAME);
+    const collection = db.collection(SAVED_COLLECTION);
+
+    const savedRecipe = await collection.find().toArray();
+    if (savedRecipe) {
+      res.status(200).json({
+        status: 200,
+        message: 'Recipe retrieved successfully',
+        recipe: savedRecipe,
+      });
+    } else {
+      res.status(404).json({ status: 404, message: 'No saved recipe found' });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: 500, message: 'Internal error' });
+  } finally {
+    client.close();
+    console.log('disconnected');
+  }
+};
+
+const patchARecipe = async (req, res) => {
+  const { recipeId, updatedRecipe } = req.body;
+
+  if (!recipeId || !updatedRecipe) {
+    return res.status(400).json({ status: 400, message: 'Invalid request' });
+  }
+
+  const client = new MongoClient(MONGO_URI, options);
+
+  try {
+    await client.connect();
+
+    const db = client.db(DB_NAME);
+    const collection = db.collection(POST_COLLECTION);
+
+    const patchNote = {
+      recipeId,
+      updatedRecipe,
+    };
+    const result = await collection.updateOne(patchNote);
+    console.log(result);
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ status: 404, message: 'Recipe not found' });
+    }
+
+    res.status(200).json({
+      status: 200,
+      message: 'Recipe updated successfully',
+      recipeId,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: 500, message: 'Internal error' });
+  } finally {
+    client.close();
+  }
+};
+
+const getNotes = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const { id } = req.query;
+  console.log(req.query);
+  try {
+    await client.connect();
+    console.log('connected');
+
+    const db = client.db(DB_NAME);
+    const collection = db.collection(POST_COLLECTION);
+
+    const notes = await collection.find({ id: Number.parseInt(id) }).toArray();
+
+    if (collection) {
+      res.status(200).json({
+        status: 200,
+        notes,
+        message: 'note retrieved successfully',
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: 500, message: 'Internal error' });
+  } finally {
+    // client.close();
+    console.log('disconnected');
+  }
+};
+
+module.exports = {
+  getIngredients,
+  createUser,
+  deleteRecipe,
+  postANote,
+  likeRecipe,
+  getSavedRecipes,
+  patchARecipe,
+  getNotes,
+};

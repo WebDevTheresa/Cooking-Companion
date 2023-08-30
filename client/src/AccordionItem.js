@@ -36,7 +36,7 @@ const AccordionItem = ({ title }) => {
     localStorage.setItem('ingredients', newValue);
   };
 
-  console.log(chosenIngredients, 'choseningriedents');
+  // console.log(chosenIngredients, 'choseningriedents');
 
   return (
     <AccordionWrapper>
