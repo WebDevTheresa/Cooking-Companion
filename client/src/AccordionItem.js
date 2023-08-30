@@ -36,8 +36,6 @@ const AccordionItem = ({ title }) => {
     localStorage.setItem('ingredients', newValue);
   };
 
-  // console.log(chosenIngredients, 'choseningriedents');
-
   return (
     <AccordionWrapper>
       <Accordionitem>
@@ -73,12 +71,9 @@ const AccordionItem = ({ title }) => {
 
 const AccordionWrapper = styled.div`
   width: 100%;
-  /* border: 1px solid #ccc; */
 `;
 
-const Accordionitem = styled.div`
-  /* border-top: 1px solid #ccc; */
-`;
+const Accordionitem = styled.div``;
 
 const Accordionbutton = styled.button`
   width: 100%;
@@ -88,7 +83,6 @@ const Accordionbutton = styled.button`
     #b29f94 51%,
     #603813 100%
   );
-  /* background-color: #e7e2da; */
   padding: 10px;
   font-size: 20px;
   font-family: Arial, Helvetica, sans-serif;
