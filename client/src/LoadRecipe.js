@@ -17,7 +17,7 @@ const LoadRecipe = () => {
   const returnHome = () => {
     navigate(`/FoodSelection`);
   };
-
+  //what does this do?
   useEffect(() => {
     const ingredientsInStorage = localStorage.getItem('ingredients');
     // console.log(ingredientsInStorage, 'ingredients in storage');

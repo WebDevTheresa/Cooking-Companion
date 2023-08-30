@@ -139,21 +139,18 @@ const DeleteButtonWithIcon = styled.button`
   color: red;
   border: none;
   background-color: white;
-  /* Add more shared styling here */
 `;
 
 const NoteButtonWithIcon = styled.button`
   color: ${(props) => (props.active ? 'green' : 'black')};
   border: none;
   background-color: white;
-  /* Add more shared styling here */
 `;
 
 const EditButtonWithIcon = styled.button`
   color: ${(props) => (props.active ? 'blue' : 'black')};
   border: none;
   background-color: white;
-  /* Add more shared styling here */
 `;
 
 const SubmitDiv = styled.div`
@@ -168,7 +165,7 @@ const SubmitDiv = styled.div`
 const RenderedText = styled.div`
   margin: 20px;
   font-size: 18px;
-  white-space: pre-wrap; /* Preserve line breaks and spaces */
+  white-space: pre-wrap;
 `;
 
 const TextArea = styled.textarea`

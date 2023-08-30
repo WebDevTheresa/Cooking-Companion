@@ -5,8 +5,6 @@ import styled from 'styled-components';
 const Profile = () => {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } =
     useAuth0();
-  //   const [newUser, setNewUser] = useState();
-  // console.log(user);
   useEffect(() => {
     if (isAuthenticated && user) {
       fetch(`/createUser`, {
@@ -23,10 +21,7 @@ const Profile = () => {
           }
           return res.json();
         })
-        .then((data) => {
-          //   console.log(data);
-          // Handle the response data
-        })
+        .then((data) => {})
         .catch((error) => {
           console.error('Error:', error);
         });

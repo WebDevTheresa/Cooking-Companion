@@ -92,7 +92,6 @@ const FoodSelection = ({ items, title, user }) => {
 const MainWrapper = styled.div`
   margin: 0;
   background-image: url(${cooking});
-  /* background-repeat: repeat; */
   background-size: cover;
   height: 100vh;
   position: relative;
@@ -134,13 +133,13 @@ const ButtonWrapper = styled.div`
   justify-content: space-evenly;
 `;
 
-const ContentsButton = styled.button`
-  width: 90px;
-  height: 37px;
-  border-style: none;
-  border-radius: 22%;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-`;
+// const ContentsButton = styled.button`
+//   width: 90px;
+//   height: 37px;
+//   border-style: none;
+//   border-radius: 22%;
+//   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+// `;
 
 const HeaderWrapper = styled.div`
   display: flex;

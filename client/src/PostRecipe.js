@@ -2,7 +2,6 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import cooking from './pictures/cooking.png';
 import { useNavigate } from 'react-router-dom';
-// import SideBar from './SideBar';
 import { Link, NavLink } from 'react-router-dom';
 
 const PostRecipe = () => {
@@ -68,7 +67,6 @@ const PostRecipe = () => {
 };
 
 const MainWrapper = styled.div`
-  /* border-bottom: solid 8px lightgrey; */
   margin: 0;
   background-image: url(${cooking});
   background-repeat: repeat;
@@ -124,7 +122,7 @@ const Button = styled.button`
 const RenderedText = styled.div`
   margin: 20px;
   font-size: 18px;
-  white-space: pre-wrap; /* Preserve line breaks and spaces */
+  white-space: pre-wrap;
 `;
 
 const Backbutton = styled.button`
