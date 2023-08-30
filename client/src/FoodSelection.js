@@ -12,7 +12,6 @@ const FoodSelection = ({ items, title, user }) => {
   const navigate = useNavigate();
 
   const [chosenIngredients, setChosenIngredients] = useState([]);
-  // console.log(items, 'items');
 
   const returnHome = () => {
     navigate(`/`);
@@ -34,7 +33,6 @@ const FoodSelection = ({ items, title, user }) => {
     try {
       const response = await fetch(url, options);
       const result = await response.json();
-      // debugger;
       localStorage.setItem('ingredients', '');
       localStorage.setItem('recipeResults', JSON.stringify(result));
       console.log(result);
@@ -57,18 +55,6 @@ const FoodSelection = ({ items, title, user }) => {
       title: 'Starch',
       content: 'Content for item 2...',
     },
-    // {
-    //   title: 'Dairy',
-    //   content: 'Content for item 2...',
-    // },
-    // {
-    //   title: 'Spices',
-    //   content: 'Content for item 2...',
-    // },
-    // {
-    //   title: 'Misc',
-    //   content: 'Content for item 2...',
-    // },
   ];
 
   if (!FoodSelection) {
