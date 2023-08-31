@@ -4,12 +4,12 @@ import styled from 'styled-components';
 
 const LogoutButton = () => {
   const { logout } = useAuth0();
-
   return (
     <LogOutBtn
-      onClick={() =>
-        logout({ logoutParams: { returnTo: window.location.origin } })
-      }
+      onClick={() => {
+        localStorage.removeItem('user');
+        logout({ logoutParams: { returnTo: window.location.origin } });
+      }}
     >
       Log Out
     </LogOutBtn>

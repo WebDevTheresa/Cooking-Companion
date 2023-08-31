@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 import { React, useState } from 'react';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const LikesBar = ({ recipe }) => {
+  const { user } = useAuth0();
   const [isLiked, setIsLiked] = useState(false);
   const [buttonActive, setButtonActive] = useState(false);
   const [displayLikes, setDisplayLikes] = useState();
@@ -18,12 +20,10 @@ const LikesBar = ({ recipe }) => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ recipe }),
+      body: JSON.stringify({ recipe, email: user.email }),
     })
       .then((response) => response.json())
       .then((data) => {
-        // debugger;
-
         setDisplayLikes(data.recipe);
         setButtonActive(true);
         console.log('success message');

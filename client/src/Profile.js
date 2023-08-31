@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import styled from 'styled-components';
+import { json } from 'react-router-dom';
 
 const Profile = () => {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } =
     useAuth0();
+  localStorage.setItem('user', JSON.stringify(user));
   useEffect(() => {
     if (isAuthenticated && user) {
       fetch(`/createUser`, {
@@ -35,9 +37,7 @@ const Profile = () => {
   return (
     isAuthenticated && (
       <Wrapper>
-        {/* <Image src={user.picture} alt={user.name} /> */}
-        <Header>Hello! {user.name}</Header>
-        {/* <p>{user.email}</p> */}
+        <Header>Hello! {user.nickname}</Header>
       </Wrapper>
     )
   );
@@ -50,6 +50,6 @@ const Wrapper = styled.div`
 `;
 
 const Header = styled.h2`
-  color: #382a0b;
+  color: #291b04;
 `;
 export default Profile;

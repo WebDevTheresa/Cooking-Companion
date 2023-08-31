@@ -8,27 +8,32 @@ import { display } from '@mui/system';
 import DislikesNotesBar from './DislikesNotesBar';
 import LogoutButton from './LogoutButton';
 import Profile from './Profile';
+import { useAuth0 } from '@auth0/auth0-react';
+
 const UserLikes = ({ SetDisplayLikes }) => {
+  const { user } = useAuth0();
   const [displayLikes, setDisplayLikes] = useState();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('/getSavedRecipes')
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setDisplayLikes(data.recipe);
-      })
-      .catch((error) => {
-        console.error('Fetch error:', error);
-      });
-  }, []);
+    if (user) {
+      fetch(`/getSavedRecipes/?user=${user.email}`)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data);
+          setDisplayLikes(data.recipe);
+        })
+        .catch((error) => {
+          console.error('Fetch error:', error);
+        });
+    }
+  }, [user]);
 
   if (!displayLikes) {
     return <div>Loading...</div>;
@@ -38,10 +43,9 @@ const UserLikes = ({ SetDisplayLikes }) => {
     <MainWrapper>
       <BackgroundImgDiv>
         <LogoutDiv>
+          <Profile />
           <LogoutButton />
         </LogoutDiv>
-        <Profile />
-        {/* <Backbutton onClick={returnHome}>⮐</Backbutton> */}
         <Wrapper>
           <NavigationLink to="/"> Home</NavigationLink>
           <NavigationLink to="/FoodSelection"> Ingredients</NavigationLink>
@@ -49,13 +53,12 @@ const UserLikes = ({ SetDisplayLikes }) => {
         </Wrapper>
       </BackgroundImgDiv>
       <ShowLikesDiv>
-        {displayLikes &&
+        {displayLikes && !!displayLikes.length ? (
           displayLikes.map((likes, index) => {
             const uniqueKey = `recipe_${index}`;
             return (
               <ContentsWrapper key={uniqueKey}>
                 <TitleDiv>{likes.recipe.title}</TitleDiv>
-                <p>User Likes: &nbsp;{likes.recipe.likes}</p>
                 <DislikesNotesBar
                   displayLikes={displayLikes}
                   setDisplayLikes={setDisplayLikes}
@@ -68,7 +71,10 @@ const UserLikes = ({ SetDisplayLikes }) => {
                 />
               </ContentsWrapper>
             );
-          })}
+          })
+        ) : (
+          <h1>Nothing To See Here Yet, Please Favorite A Recipe</h1>
+        )}
       </ShowLikesDiv>
     </MainWrapper>
   );
@@ -103,14 +109,9 @@ const RecipeImg = styled.img`
   width: 200px;
 `;
 
-const LikedUserRecipes = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  padding: 15px;
-
-  background-color: white;
-`;
 const TitleDiv = styled.div`
+  padding: 10px;
+  font-weight: bold;
   inline-size: 350px;
   overflow-wrap: break-word;
 `;
@@ -122,10 +123,6 @@ const ShowLikesDiv = styled.div`
 
 const ContentsWrapper = styled.div`
   border: solid 2px beige;
-  padding: 15px;
-  /* display: flex; */
-  /* justify-content: center;
-  flex-direction: row; */
 `;
 
 const NavigationLink = styled(NavLink)`
@@ -166,7 +163,6 @@ const Backbutton = styled.button`
 
 const LogoutDiv = styled.div`
   display: flex;
-
   justify-content: flex-end;
 `;
 export default UserLikes;

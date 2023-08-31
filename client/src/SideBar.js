@@ -5,10 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import UserLikes from './UserLikes';
 
 const Sidebar = () => {
-  // const [displayLikes, setDisplayLikes] = useState();
-
-  // const [buttonActive, setButtonActive] = useState(false);
-
   const navigate = useNavigate();
 
   const handleSaveClick = () => {

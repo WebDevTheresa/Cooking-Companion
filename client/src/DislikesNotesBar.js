@@ -14,10 +14,12 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
   const [displayRecipe, setDisplayRecipe] = useState();
   const [notes, setNotes] = useState();
 
-  //delete fetch triggers when button clicked
-
   const fetchNotes = () => {
-    fetch(`/getNotes/?id=${recipeId}`)
+    fetch(
+      `/getNotes/?id=${recipeId}&userEmail=${
+        JSON.parse(localStorage.getItem('user')).email
+      }`
+    )
       .then((res) => {
         if (!res.ok) {
           throw new Error('cannot find note');
@@ -35,15 +37,6 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
   };
 
   useEffect(() => {
-    // const storedRecipeText = localStorage.getItem('recipeText');
-    // if (storedRecipeText) {
-    //   setAddRecipe(storedRecipeText);
-    // }
-    // const storedSubmittedRecipe = localStorage.getItem('submittedRecipe');
-    // if (storedSubmittedRecipe) {
-    //   setDisplayRecipe(storedSubmittedRecipe);
-    //   setIsButtonClicked(true);
-    // }
     fetchNotes();
   }, []);
 
@@ -55,24 +48,25 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ recipeData: recipeId }),
+      body: JSON.stringify({
+        recipeData: recipeId,
+        userEmail: JSON.parse(localStorage.getItem('user')).email,
+      }),
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
         setDeletedRecipe(recipeId);
+        setNotes([]);
         const result = displayLikes.filter(
           (likedRecipe) => likedRecipe.recipe.id !== recipeId
         );
-        // console.log(result)
+
         setDisplayLikes(result);
-        // debugger;
       })
       .catch((error) => console.error(error));
-
-    // console.log(data);
   };
-  // text box should popup when clicked and the postend point should be called
+
   const handleNoteSubmit = () => {
     setClickNoteAdded(!clickNoteAdded);
     fetch(`/recipes`, {
@@ -81,7 +75,11 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ note: addRecipe, id: recipeId }),
+      body: JSON.stringify({
+        note: addRecipe,
+        id: recipeId,
+        userEmail: JSON.parse(localStorage.getItem('user')).email,
+      }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -126,8 +124,8 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
       <SubmitDiv>
         {notes &&
           !!notes.length &&
-          notes.map((note) => {
-            return <p>{note.note}</p>;
+          notes.map((note, index) => {
+            return <p key={index}>{note.note}</p>;
           })}
         {clickNoteAdded && (
           <>
@@ -145,10 +143,6 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
         <NoteButtonWithIcon onClick={handleAddNote} active={clickNoteAdded}>
           {notes && notes.length ? <EditIcon /> : <NoteAddIcon />}
         </NoteButtonWithIcon>
-
-        {/* <EditButtonWithIcon onClick={handleEditNote} active={clickReadNote}>
-          
-        </EditButtonWithIcon> */}
       </SubmitDiv>
 
       <DeleteButtonWithIcon onClick={handleDiscardButton} active={isLiked}>
@@ -166,12 +160,6 @@ const DeleteButtonWithIcon = styled.button`
 
 const NoteButtonWithIcon = styled.button`
   color: ${(props) => (props.active ? 'green' : 'black')};
-  border: none;
-  background-color: white;
-`;
-
-const EditButtonWithIcon = styled.button`
-  color: ${(props) => (props.active ? 'blue' : 'black')};
   border: none;
   background-color: white;
 `;

@@ -5,26 +5,29 @@ import LoadRecipe from './LoadRecipe';
 import LikesBar from './LikesBar';
 
 const Feed = () => {
-  // debugger;
   return (
     <Wrapper>
       <Sidebar />
       <RecipeFeed>
-        {JSON.parse(localStorage.getItem('recipeResults')).map((recipe) => {
-          return (
-            <ContentsWrapper key={recipe.id}>
-              <RecipeTitle>{recipe.title}</RecipeTitle>
-              <img
-                src={recipe.image}
-                alt="food"
-                key={`${recipe.id}-image`}
-                style={{ width: 400, height: 400 }}
-              />
-              {/* <p>Likes:{recipe.likes}</p> */}
-              <LikesBar recipe={recipe} />
-            </ContentsWrapper>
-          );
-        })}
+        {localStorage.getItem('recipeResults') &&
+        localStorage.getItem('recipeResults') !== '[]' ? (
+          JSON.parse(localStorage.getItem('recipeResults')).map((recipe) => {
+            return (
+              <ContentsWrapper key={recipe.id}>
+                <RecipeTitle>{recipe.title}</RecipeTitle>
+                <img
+                  src={recipe.image}
+                  alt="food"
+                  key={`${recipe.id}-image`}
+                  style={{ width: 400, height: 400 }}
+                />
+                <LikesBar recipe={recipe} />
+              </ContentsWrapper>
+            );
+          })
+        ) : (
+          <p>Nothing to see here, please select ingredients first</p>
+        )}
       </RecipeFeed>
     </Wrapper>
   );
@@ -44,31 +47,6 @@ const RecipeFeed = styled.div`
   border: 1px solid rgb(230, 230, 230);
   background-color: white;
 `;
-
-// const AddRecipeButton = styled.button`
-//   background-image: linear-gradient(
-//     to right,
-//     #f0c27b 0%,
-//     #4b1248 51%,
-//     #f0c27b 100%
-//   );
-//   margin: 10px;
-//   padding: 15px 45px;
-//   text-align: center;
-//   text-transform: uppercase;
-//   transition: 0.5s;
-//   background-size: 200% auto;
-//   color: white;
-//   box-shadow: 0 0 20px #eee;
-//   border-radius: 10px;
-//   display: block;
-
-//   &:hover {
-//     background-position: right center;
-//     color: #fff;
-//     text-decoration: none;
-//   }
-// `;
 
 const RecipeTitle = styled.p`
   inline-size: 350px;

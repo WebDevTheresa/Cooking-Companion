@@ -6,13 +6,11 @@ import AccordionItem from './AccordionItem';
 import cooking from './pictures/cooking.png';
 import { useNavigate } from 'react-router-dom';
 import Profile from './Profile';
-// import Sidebar from './SideBar';
-
+import LogoutButton from './LogoutButton';
 const FoodSelection = ({ items, title, user }) => {
   const navigate = useNavigate();
 
   const [chosenIngredients, setChosenIngredients] = useState([]);
-  // console.log(items, 'items');
 
   const returnHome = () => {
     navigate(`/`);
@@ -25,7 +23,7 @@ const FoodSelection = ({ items, title, user }) => {
     const options = {
       method: 'GET',
       headers: {
-        'X-RapidAPI-Key': `0613153440mshe2a14ecb716c72dp15bed8jsn1e385404eac2`,
+        'X-RapidAPI-Key': process.env.REACT_APP_RAPIDAPI_KEY,
         'X-RapidAPI-Host':
           'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com',
       },
@@ -34,7 +32,6 @@ const FoodSelection = ({ items, title, user }) => {
     try {
       const response = await fetch(url, options);
       const result = await response.json();
-      // debugger;
       localStorage.setItem('ingredients', '');
       localStorage.setItem('recipeResults', JSON.stringify(result));
       console.log(result);
@@ -57,18 +54,6 @@ const FoodSelection = ({ items, title, user }) => {
       title: 'Starch',
       content: 'Content for item 2...',
     },
-    // {
-    //   title: 'Dairy',
-    //   content: 'Content for item 2...',
-    // },
-    // {
-    //   title: 'Spices',
-    //   content: 'Content for item 2...',
-    // },
-    // {
-    //   title: 'Misc',
-    //   content: 'Content for item 2...',
-    // },
   ];
 
   if (!FoodSelection) {
@@ -76,8 +61,10 @@ const FoodSelection = ({ items, title, user }) => {
   }
   return (
     <MainWrapper>
-      <Backbutton onClick={returnHome}>⮐</Backbutton>
-      <Profile />
+      <LogoutDiv>
+        <Profile />
+        <LogoutButton />
+      </LogoutDiv>
       <HeaderWrapper>
         <Header>Select Your Ingredients</Header>
       </HeaderWrapper>
@@ -132,15 +119,14 @@ const ButtonWrapper = styled.div`
   justify-content: column;
   justify-content: space-evenly;
 `;
-
-// const ContentsButton = styled.button`
-//   width: 90px;
-//   height: 37px;
-//   border-style: none;
-//   border-radius: 22%;
-//   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-// `;
-
+const ContentsButton = styled.button`
+  width: 90px;
+  height: 37px;
+  border-style: none;
+  border-radius: 22%;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  //
+`;
 const HeaderWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -163,5 +149,8 @@ const Backbutton = styled.button`
   border-radius: 10px;
   display: block;
 `;
-
+const LogoutDiv = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
 export default FoodSelection;
