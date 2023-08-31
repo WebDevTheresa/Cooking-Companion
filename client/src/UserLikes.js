@@ -8,27 +8,32 @@ import { display } from '@mui/system';
 import DislikesNotesBar from './DislikesNotesBar';
 import LogoutButton from './LogoutButton';
 import Profile from './Profile';
+import { useAuth0 } from '@auth0/auth0-react';
+
 const UserLikes = ({ SetDisplayLikes }) => {
+  const { user } = useAuth0();
   const [displayLikes, setDisplayLikes] = useState();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('/getSavedRecipes')
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setDisplayLikes(data.recipe);
-      })
-      .catch((error) => {
-        console.error('Fetch error:', error);
-      });
-  }, []);
+    if (user) {
+      fetch(`/getSavedRecipes/?user=${user.email}`)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data);
+          setDisplayLikes(data.recipe);
+        })
+        .catch((error) => {
+          console.error('Fetch error:', error);
+        });
+    }
+  }, [user]);
 
   if (!displayLikes) {
     return <div>Loading...</div>;
@@ -48,7 +53,7 @@ const UserLikes = ({ SetDisplayLikes }) => {
         </Wrapper>
       </BackgroundImgDiv>
       <ShowLikesDiv>
-        {displayLikes &&
+        {displayLikes && !!displayLikes.length ? (
           displayLikes.map((likes, index) => {
             const uniqueKey = `recipe_${index}`;
             return (
@@ -66,7 +71,10 @@ const UserLikes = ({ SetDisplayLikes }) => {
                 />
               </ContentsWrapper>
             );
-          })}
+          })
+        ) : (
+          <h1>Nothing To See Here Yet, Please Favorite A Recipe</h1>
+        )}
       </ShowLikesDiv>
     </MainWrapper>
   );

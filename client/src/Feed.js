@@ -9,20 +9,25 @@ const Feed = () => {
     <Wrapper>
       <Sidebar />
       <RecipeFeed>
-        {JSON.parse(localStorage.getItem('recipeResults')).map((recipe) => {
-          return (
-            <ContentsWrapper key={recipe.id}>
-              <RecipeTitle>{recipe.title}</RecipeTitle>
-              <img
-                src={recipe.image}
-                alt="food"
-                key={`${recipe.id}-image`}
-                style={{ width: 400, height: 400 }}
-              />
-              <LikesBar recipe={recipe} />
-            </ContentsWrapper>
-          );
-        })}
+        {localStorage.getItem('recipeResults') &&
+        localStorage.getItem('recipeResults') !== '[]' ? (
+          JSON.parse(localStorage.getItem('recipeResults')).map((recipe) => {
+            return (
+              <ContentsWrapper key={recipe.id}>
+                <RecipeTitle>{recipe.title}</RecipeTitle>
+                <img
+                  src={recipe.image}
+                  alt="food"
+                  key={`${recipe.id}-image`}
+                  style={{ width: 400, height: 400 }}
+                />
+                <LikesBar recipe={recipe} />
+              </ContentsWrapper>
+            );
+          })
+        ) : (
+          <p>Nothing to see here, please select ingredients first</p>
+        )}
       </RecipeFeed>
     </Wrapper>
   );

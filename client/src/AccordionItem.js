@@ -27,8 +27,14 @@ const AccordionItem = ({ title }) => {
       });
   };
   const handleClick = (foodname) => {
-    debugger;
-    setChosenIngredients([...chosenIngredients, foodname]);
+    if (chosenIngredients.includes(foodname)) {
+      setChosenIngredients(
+        chosenIngredients.filter((food) => food !== foodname)
+      );
+    } else {
+      setChosenIngredients([...chosenIngredients, foodname]);
+    }
+
     const existingValue = localStorage.getItem('ingredients');
 
     const newValue = existingValue ? existingValue + ',' + foodname : foodname;

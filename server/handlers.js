@@ -72,7 +72,7 @@ const createUser = async (req, res) => {
 
 const deleteRecipe = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-  const { recipeData } = req.body;
+  const { recipeData, userEmail } = req.body;
 
   try {
     await client.connect();
@@ -80,12 +80,22 @@ const deleteRecipe = async (req, res) => {
 
     const db = client.db(DB_NAME);
     const collection = db.collection(SAVED_COLLECTION);
+    const notesCollection = db.collection(POST_COLLECTION);
 
-    const recipe = await collection.deleteOne({ 'recipe.id': recipeData });
-    console.log(recipe);
+    const recipe = await collection.deleteOne({
+      'recipe.id': recipeData,
+      email: userEmail,
+    });
 
     if (!recipe) {
       return res.status(404).json({ status: 404, message: 'Recipe not found' });
+    }
+    const userNotes = await notesCollection.deleteOne({
+      id: recipeData,
+      email: userEmail,
+    });
+    if (!userNotes) {
+      return res.status(404).json({ status: 404, message: 'Note not found' });
     }
     res
       .status(200)
@@ -103,7 +113,7 @@ const postANote = async (req, res) => {
   console.log(req.body);
   const client = new MongoClient(MONGO_URI, options);
 
-  const { note, id } = req.body;
+  const { note, id, userEmail } = req.body;
 
   try {
     await client.connect();
@@ -112,14 +122,9 @@ const postANote = async (req, res) => {
     const db = client.db(DB_NAME);
     const collection = db.collection(POST_COLLECTION);
 
-    const newRecipe = {
-      note,
-      id,
-    };
-
     const result = await collection.updateOne(
       { id: id },
-      { $set: { note: note } },
+      { $set: { note: note, email: userEmail } },
       { upsert: true }
     );
     console.log(result);
@@ -141,7 +146,7 @@ const postANote = async (req, res) => {
 const likeRecipe = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
 
-  const { recipe } = req.body;
+  const { recipe, email } = req.body;
 
   try {
     await client.connect();
@@ -152,6 +157,7 @@ const likeRecipe = async (req, res) => {
 
     const saveRecipe = {
       recipe,
+      email,
     };
 
     const result = await collection.insertOne(saveRecipe);
@@ -172,6 +178,7 @@ const likeRecipe = async (req, res) => {
 
 const getSavedRecipes = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
+  const { user } = req.query;
 
   try {
     await client.connect();
@@ -180,7 +187,7 @@ const getSavedRecipes = async (req, res) => {
     const db = client.db(DB_NAME);
     const collection = db.collection(SAVED_COLLECTION);
 
-    const savedRecipe = await collection.find().toArray();
+    const savedRecipe = await collection.find({ email: user }).toArray();
     if (savedRecipe) {
       res.status(200).json({
         status: 200,
@@ -240,7 +247,7 @@ const patchARecipe = async (req, res) => {
 
 const getNotes = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-  const { id } = req.query;
+  const { id, userEmail } = req.query;
   console.log(req.query);
   try {
     await client.connect();
@@ -249,7 +256,9 @@ const getNotes = async (req, res) => {
     const db = client.db(DB_NAME);
     const collection = db.collection(POST_COLLECTION);
 
-    const notes = await collection.find({ id: Number.parseInt(id) }).toArray();
+    const notes = await collection
+      .find({ id: Number.parseInt(id), email: userEmail })
+      .toArray();
 
     if (collection) {
       res.status(200).json({

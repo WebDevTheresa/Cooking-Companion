@@ -27,7 +27,7 @@ const Home = () => {
         <Button onClick={handleButtonClick} disabled={!isAuthenticated}>
           Enter
         </Button>
-        <Prompt>Please Log In to proceed</Prompt>
+        {!isAuthenticated && <Prompt>Please Log In to proceed</Prompt>}
       </ElementsWrapper>
     </MainWrapper>
   );

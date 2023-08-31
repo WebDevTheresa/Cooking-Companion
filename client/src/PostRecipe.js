@@ -23,7 +23,6 @@ const PostRecipe = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        debugger;
         setAddRecipe('');
         setDisplayRecipe(data.recipe);
         setIsButtonClicked(true);

@@ -15,7 +15,11 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
   const [notes, setNotes] = useState();
 
   const fetchNotes = () => {
-    fetch(`/getNotes/?id=${recipeId}`)
+    fetch(
+      `/getNotes/?id=${recipeId}&userEmail=${
+        JSON.parse(localStorage.getItem('user')).email
+      }`
+    )
       .then((res) => {
         if (!res.ok) {
           throw new Error('cannot find note');
@@ -44,12 +48,16 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ recipeData: recipeId }),
+      body: JSON.stringify({
+        recipeData: recipeId,
+        userEmail: JSON.parse(localStorage.getItem('user')).email,
+      }),
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
         setDeletedRecipe(recipeId);
+        setNotes([]);
         const result = displayLikes.filter(
           (likedRecipe) => likedRecipe.recipe.id !== recipeId
         );
@@ -67,7 +75,11 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ note: addRecipe, id: recipeId }),
+      body: JSON.stringify({
+        note: addRecipe,
+        id: recipeId,
+        userEmail: JSON.parse(localStorage.getItem('user')).email,
+      }),
     })
       .then((response) => response.json())
       .then((data) => {

@@ -23,7 +23,7 @@ const FoodSelection = ({ items, title, user }) => {
     const options = {
       method: 'GET',
       headers: {
-        'X-RapidAPI-Key': `0613153440mshe2a14ecb716c72dp15bed8jsn1e385404eac2`,
+        'X-RapidAPI-Key': process.env.REACT_APP_RAPIDAPI_KEY,
         'X-RapidAPI-Host':
           'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com',
       },
