@@ -9,7 +9,6 @@ const PostRecipe = () => {
   const [addRecipe, setAddRecipe] = useState('');
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [displayRecipe, setDisplayRecipe] = useState();
-  // console.log(addRecipe);
 
   const handlePost = () => {
     console.log();
@@ -139,11 +138,6 @@ const Backbutton = styled.button`
 
 const TextAreaWrapper = styled.div`
   display: flex;
-  /* flex-direction: column; */
-  /* justify-content: center; */
-
-  /* align-items: center; */
-  /* height: 100vh; */
 `;
 
 const NavigationLink = styled(NavLink)`

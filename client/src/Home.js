@@ -6,7 +6,7 @@ import LogoutButton from './LogoutButton';
 import Profile from './Profile';
 import Navbar from './Navbar';
 import { useAuth0 } from '@auth0/auth0-react';
-//fix responsiveness for background image
+
 const Home = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth0();

@@ -5,7 +5,11 @@ import styled from 'styled-components';
 const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
 
-  return <LogInBtn onClick={() => loginWithRedirect()}>Log In</LogInBtn>;
+  return (
+    <LogInBtn onClick={() => loginWithRedirect()}>
+      Log In &nbsp; /&nbsp; Sign In{' '}
+    </LogInBtn>
+  );
 };
 
 const LogInBtn = styled.button`
