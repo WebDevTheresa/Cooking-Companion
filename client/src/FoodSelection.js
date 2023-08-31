@@ -65,7 +65,7 @@ const FoodSelection = ({ items, title, user }) => {
       <Backbutton onClick={returnHome}>⮐</Backbutton>
       <Profile />
       <HeaderWrapper>
-        <Header>Select Your Ingredients</Header>
+        <Header>Multi-Ingredient Cuisine Options</Header>
       </HeaderWrapper>
       <ButtonWrapper>
         <NextButton onClick={searchRecipes}>Search</NextButton>
@@ -118,14 +118,6 @@ const ButtonWrapper = styled.div`
   justify-content: column;
   justify-content: space-evenly;
 `;
-
-// const ContentsButton = styled.button`
-//   width: 90px;
-//   height: 37px;
-//   border-style: none;
-//   border-radius: 22%;
-//   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-// `;
 
 const HeaderWrapper = styled.div`
   display: flex;

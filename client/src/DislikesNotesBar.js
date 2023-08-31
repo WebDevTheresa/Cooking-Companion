@@ -14,8 +14,6 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
   const [displayRecipe, setDisplayRecipe] = useState();
   const [notes, setNotes] = useState();
 
-  //delete fetch triggers when button clicked
-
   const fetchNotes = () => {
     fetch(`/getNotes/?id=${recipeId}`)
       .then((res) => {
@@ -35,15 +33,6 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
   };
 
   useEffect(() => {
-    // const storedRecipeText = localStorage.getItem('recipeText');
-    // if (storedRecipeText) {
-    //   setAddRecipe(storedRecipeText);
-    // }
-    // const storedSubmittedRecipe = localStorage.getItem('submittedRecipe');
-    // if (storedSubmittedRecipe) {
-    //   setDisplayRecipe(storedSubmittedRecipe);
-    //   setIsButtonClicked(true);
-    // }
     fetchNotes();
   }, []);
 
@@ -64,15 +53,12 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
         const result = displayLikes.filter(
           (likedRecipe) => likedRecipe.recipe.id !== recipeId
         );
-        // console.log(result)
+
         setDisplayLikes(result);
-        // debugger;
       })
       .catch((error) => console.error(error));
-
-    // console.log(data);
   };
-  // text box should popup when clicked and the postend point should be called
+
   const handleNoteSubmit = () => {
     setClickNoteAdded(!clickNoteAdded);
     fetch(`/recipes`, {
@@ -145,10 +131,6 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
         <NoteButtonWithIcon onClick={handleAddNote} active={clickNoteAdded}>
           {notes && notes.length ? <EditIcon /> : <NoteAddIcon />}
         </NoteButtonWithIcon>
-
-        {/* <EditButtonWithIcon onClick={handleEditNote} active={clickReadNote}>
-          
-        </EditButtonWithIcon> */}
       </SubmitDiv>
 
       <DeleteButtonWithIcon onClick={handleDiscardButton} active={isLiked}>
@@ -166,12 +148,6 @@ const DeleteButtonWithIcon = styled.button`
 
 const NoteButtonWithIcon = styled.button`
   color: ${(props) => (props.active ? 'green' : 'black')};
-  border: none;
-  background-color: white;
-`;
-
-const EditButtonWithIcon = styled.button`
-  color: ${(props) => (props.active ? 'blue' : 'black')};
   border: none;
   background-color: white;
 `;
