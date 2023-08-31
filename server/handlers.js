@@ -73,7 +73,7 @@ const createUser = async (req, res) => {
 const deleteRecipe = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const { recipeData } = req.body;
-  // console.log(id);
+
   try {
     await client.connect();
     console.log('connected');

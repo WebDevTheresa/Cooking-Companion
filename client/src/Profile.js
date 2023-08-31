@@ -35,9 +35,7 @@ const Profile = () => {
   return (
     isAuthenticated && (
       <Wrapper>
-        {/* <Image src={user.picture} alt={user.name} /> */}
-        <Header>Hello! {user.name}</Header>
-        {/* <p>{user.email}</p> */}
+        <Header>Hello! {user.nickname}</Header>
       </Wrapper>
     )
   );
@@ -50,6 +48,6 @@ const Wrapper = styled.div`
 `;
 
 const Header = styled.h2`
-  color: #382a0b;
+  color: #291b04;
 `;
 export default Profile;

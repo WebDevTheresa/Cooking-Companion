@@ -38,10 +38,9 @@ const UserLikes = ({ SetDisplayLikes }) => {
     <MainWrapper>
       <BackgroundImgDiv>
         <LogoutDiv>
+          <Profile />
           <LogoutButton />
         </LogoutDiv>
-        <Profile />
-        {/* <Backbutton onClick={returnHome}>⮐</Backbutton> */}
         <Wrapper>
           <NavigationLink to="/"> Home</NavigationLink>
           <NavigationLink to="/FoodSelection"> Ingredients</NavigationLink>
@@ -55,7 +54,6 @@ const UserLikes = ({ SetDisplayLikes }) => {
             return (
               <ContentsWrapper key={uniqueKey}>
                 <TitleDiv>{likes.recipe.title}</TitleDiv>
-                <p>User Likes: &nbsp;{likes.recipe.likes}</p>
                 <DislikesNotesBar
                   displayLikes={displayLikes}
                   setDisplayLikes={setDisplayLikes}
@@ -103,14 +101,9 @@ const RecipeImg = styled.img`
   width: 200px;
 `;
 
-const LikedUserRecipes = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  padding: 15px;
-
-  background-color: white;
-`;
 const TitleDiv = styled.div`
+  padding: 10px;
+  font-weight: bold;
   inline-size: 350px;
   overflow-wrap: break-word;
 `;
@@ -122,10 +115,6 @@ const ShowLikesDiv = styled.div`
 
 const ContentsWrapper = styled.div`
   border: solid 2px beige;
-  padding: 15px;
-  /* display: flex; */
-  /* justify-content: center;
-  flex-direction: row; */
 `;
 
 const NavigationLink = styled(NavLink)`
@@ -166,7 +155,6 @@ const Backbutton = styled.button`
 
 const LogoutDiv = styled.div`
   display: flex;
-
   justify-content: flex-end;
 `;
 export default UserLikes;

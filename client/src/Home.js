@@ -5,6 +5,7 @@ import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
 import Profile from './Profile';
 import Navbar from './Navbar';
+import EggAltIcon from '@mui/icons-material/EggAlt';
 import { useAuth0 } from '@auth0/auth0-react';
 
 const Home = () => {
@@ -22,7 +23,7 @@ const Home = () => {
         <Header>
           Cooking <br></br>Companion
         </Header>
-
+        <Prompt>Multi-Ingredient Cuisine options</Prompt>
         <Button onClick={handleButtonClick} disabled={!isAuthenticated}>
           Enter
         </Button>

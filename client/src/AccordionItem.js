@@ -26,8 +26,8 @@ const AccordionItem = ({ title }) => {
         console.log(error, 'error');
       });
   };
-
   const handleClick = (foodname) => {
+    debugger;
     setChosenIngredients([...chosenIngredients, foodname]);
     const existingValue = localStorage.getItem('ingredients');
 

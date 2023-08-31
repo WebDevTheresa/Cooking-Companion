@@ -3,7 +3,7 @@ import react from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import cooking from './pictures/cooking.png';
-import AccordionItem from './AccordionItem';
+
 import Feed from './Feed';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Profile from './Profile';
@@ -14,10 +14,6 @@ const LoadRecipe = () => {
   const [ShowRecipes, setShowRecipe] = useState([]);
   const [ingredients, setIngredients] = useState([]);
 
-  const returnHome = () => {
-    navigate(`/FoodSelection`);
-  };
-
   useEffect(() => {
     const ingredientsInStorage = localStorage.getItem('ingredients');
   }, []);
@@ -25,11 +21,10 @@ const LoadRecipe = () => {
   return (
     <MainWrapper>
       <BackgroundImgDiv>
-        <Backbutton onClick={returnHome}>⮐</Backbutton>
         <LogoutDiv>
+          <Profile />
           <LogoutButton />
         </LogoutDiv>
-        <Profile />
       </BackgroundImgDiv>
 
       <Feed />
@@ -64,14 +59,4 @@ const LogoutDiv = styled.div`
   justify-content: flex-end;
 `;
 
-const Backbutton = styled.button`
-  background-color: #666600;
-  margin-left: 20px;
-  height: 50px;
-  text-align: center;
-  background-size: 200% auto;
-  color: white;
-  border-radius: 10px;
-  display: block;
-`;
 export default LoadRecipe;

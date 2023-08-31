@@ -6,8 +6,7 @@ import AccordionItem from './AccordionItem';
 import cooking from './pictures/cooking.png';
 import { useNavigate } from 'react-router-dom';
 import Profile from './Profile';
-// import Sidebar from './SideBar';
-
+import LogoutButton from './LogoutButton';
 const FoodSelection = ({ items, title, user }) => {
   const navigate = useNavigate();
 
@@ -62,10 +61,12 @@ const FoodSelection = ({ items, title, user }) => {
   }
   return (
     <MainWrapper>
-      <Backbutton onClick={returnHome}>⮐</Backbutton>
-      <Profile />
+      <LogoutDiv>
+        <Profile />
+        <LogoutButton />
+      </LogoutDiv>
       <HeaderWrapper>
-        <Header>Multi-Ingredient Cuisine Options</Header>
+        <Header>Select Your Ingredients</Header>
       </HeaderWrapper>
       <ButtonWrapper>
         <NextButton onClick={searchRecipes}>Search</NextButton>
@@ -118,7 +119,14 @@ const ButtonWrapper = styled.div`
   justify-content: column;
   justify-content: space-evenly;
 `;
-
+const ContentsButton = styled.button`
+  width: 90px;
+  height: 37px;
+  border-style: none;
+  border-radius: 22%;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  //
+`;
 const HeaderWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -141,5 +149,8 @@ const Backbutton = styled.button`
   border-radius: 10px;
   display: block;
 `;
-
+const LogoutDiv = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
 export default FoodSelection;

@@ -112,8 +112,8 @@ const DislikesNotesBar = ({ recipeId, displayLikes, setDisplayLikes }) => {
       <SubmitDiv>
         {notes &&
           !!notes.length &&
-          notes.map((note) => {
-            return <p>{note.note}</p>;
+          notes.map((note, index) => {
+            return <p key={index}>{note.note}</p>;
           })}
         {clickNoteAdded && (
           <>
