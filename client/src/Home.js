@@ -23,7 +23,7 @@ const Home = () => {
         <Header>
           Cooking <br></br>Companion
         </Header>
-        <Prompt>Multi-Ingredient Cuisine options</Prompt>
+        <Prompt>Multi-Ingredient Cuisine Options</Prompt>
         <Button onClick={handleButtonClick} disabled={!isAuthenticated}>
           Enter
         </Button>
