@@ -11,6 +11,16 @@ Ingredient-Based Recipe Search: Don't know what to cook? Simply select the ingre
 Favorites: Found a recipe you love? Save it to your favorites for quick access later.
 
 
+Getting stated:
+you will need two terminals running at once to access
+
+front-end:
+- cd client
+- yarn start
+
+Backend:
+- cd server
+- yarn start
 
 
 
